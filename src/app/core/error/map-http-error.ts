@@ -64,7 +64,7 @@ function statusToMessage(status: number): string {
 }
 
 function normalizeFieldErrors(
-  input: ServerErrorBody['fieldErrors'],
+  input: ServerErrorBody['fieldErrors']
 ): readonly ApiFieldError[] | undefined {
   if (!input) {
     return undefined;

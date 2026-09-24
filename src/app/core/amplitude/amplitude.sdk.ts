@@ -22,8 +22,7 @@ export const amplitudeModuleFns = {
 export const AMPLITUDE_SDK = new InjectionToken<AmplitudeSdk>('AMPLITUDE_SDK', {
   providedIn: 'root',
   factory: () => ({
-    init: (apiKey: string) =>
-      amplitudeModuleFns.init(apiKey, undefined, { autocapture: false }),
+    init: (apiKey: string) => amplitudeModuleFns.init(apiKey, undefined, { autocapture: false }),
     track: (eventName: string, properties?: Readonly<Record<string, unknown>>) =>
       amplitudeModuleFns.track(eventName, properties),
     reset: () => amplitudeModuleFns.reset(),

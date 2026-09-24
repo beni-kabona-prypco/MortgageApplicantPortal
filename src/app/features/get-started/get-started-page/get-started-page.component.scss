@@ -2,6 +2,8 @@
   display: contents;
 }
 
+// ── Desktop view ──────────────────────────────────────────────────────────────
+
 // ── Desktop card ──────────────────────────────────────────────────────────────
 
 .get-started__card {
@@ -77,6 +79,32 @@
   }
 }
 
+// ── Mobile loading state ──────────────────────────────────────────────────────
+
+.get-started__mobile-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  background: var(--color-surface-secondary);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.get-started__spinner {
+  display: block;
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-instamortgage-bg);
+  border-radius: var(--radius-pill);
+  animation: spin 0.8s linear infinite;
+}
+
 // ── Right: QR visual ──────────────────────────────────────────────────────────
 
 .get-started__qr-visual {
@@ -95,6 +123,18 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+// Success state — replaces QR code once buyer completes verification
+.get-started__verified {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  height: 100%;
 }
 
 // White card overlaid on background, offset per Figma

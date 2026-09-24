@@ -1,0 +1,113 @@
+<div class="mobile">
+  <!-- ── Sticky header: top nav ──────────────────────────────────────────────── -->
+  <div class="mobile__header">
+    <app-top-nav-buyer
+      [brokerName]="brokerName()"
+      [brokerageName]="brokerageName()"
+      [appId]="shortId() || applicationId()"
+      [brokerageLogo]="brokerageLogo()"
+    />
+  </div>
+
+  <!-- ── Scrollable body ─────────────────────────────────────────────────────── -->
+  <div class="mobile__body">
+    <div class="mobile__section">
+      <!-- Greeting -->
+      <div class="mobile__greeting">
+        <p class="mobile__hello">Hello {{ buyerFirstName() }},</p>
+        <p class="mobile__subtitle">
+          @if (isResume()) {
+            Resume your instant pre-approval journey!
+          } @else {
+            It's time to get pre-approved instantly!
+          }
+        </p>
+      </div>
+
+      <!-- Content card -->
+      <div class="mobile__card">
+        <!-- Emirates ID hero image -->
+        <div class="mobile__hero">
+          <img
+            class="mobile__hero-img"
+            src="/assets/images/emirates-id-hero.png"
+            alt="Emirates ID"
+          />
+        </div>
+
+        <!-- Steps + CTA -->
+        <div class="mobile__content">
+          <p class="mobile__how-title">
+            @if (isResume()) {
+              What's next?
+            } @else {
+              How it works
+            }
+          </p>
+
+          @if (isResume()) {
+            <!-- ── Resume mode: progress steps with completion indicators ──── -->
+            <ol class="mobile__resume-steps">
+              <li class="mobile__resume-step" [class.mobile__resume-step--done]="true">
+                <span class="mobile__step-num">1.</span>
+                <img
+                  class="mobile__check-icon"
+                  src="/assets/icons/check-circle.svg"
+                  aria-hidden="true"
+                  alt=""
+                />
+                <span class="mobile__step-text">
+                  Agree to terms and conditions and provide additional information about you
+                </span>
+              </li>
+              <li class="mobile__resume-step" [class.mobile__resume-step--done]="isEkycCompleted()">
+                <span class="mobile__step-num">2.</span>
+                @if (isEkycCompleted()) {
+                  <img
+                    class="mobile__check-icon"
+                    src="/assets/icons/check-circle.svg"
+                    aria-hidden="true"
+                    alt=""
+                  />
+                }
+                <span class="mobile__step-text">
+                  Verify your identity through Emirates ID and face scan.
+                </span>
+              </li>
+              <li class="mobile__resume-step">
+                <span class="mobile__step-num">3.</span>
+                <span class="mobile__step-text">
+                  Once the offer is chosen, you will need to agree to &ldquo;Key Facts
+                  Statement&rdquo;
+                </span>
+              </li>
+            </ol>
+          } @else {
+            <!-- ── Initial mode: plain numbered steps ─────────────────────── -->
+            <ol class="mobile__steps">
+              <li>Agree to terms and conditions</li>
+              <li>Tell us a bit more about you</li>
+              <li>Scan your Emirates ID</li>
+              <li>Verify your identity with face scan</li>
+              <li>
+                Once the offer is chosen, you will need to agree to &ldquo;Key Facts
+                Statement&rdquo;
+              </li>
+            </ol>
+          }
+
+          <p class="mobile__time-note">This will take less than 2 minutes!</p>
+
+          <button class="mobile__cta" type="button" (click)="ctaClick.emit()">
+            {{ isResume() ? 'Resume' : 'Get started' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Footer ─────────────────────────────────────────────────────────────── -->
+  <footer class="mobile__footer">
+    <p class="mobile__powered-by">Powered by InstaMortgage</p>
+  </footer>
+</div>

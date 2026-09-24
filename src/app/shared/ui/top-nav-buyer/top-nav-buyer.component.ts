@@ -13,4 +13,5 @@ export class TopNavBuyerComponent {
   readonly brokerName = input.required<string>();
   readonly brokerageName = input.required<string>();
   readonly appId = input.required<string>();
+  readonly brokerageLogo = input<string>('');
 }

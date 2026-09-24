@@ -9,11 +9,9 @@ import { API_BASE_URL } from '@core/config';
  * importing the base URL directly. Absolute URLs (https://...) pass through unchanged.
  */
 export const baseUrlInterceptor: HttpInterceptorFn = (req, next) => {
-  const baseUrl = inject(API_BASE_URL);
-
   if (!req.url.startsWith('/')) {
     return next(req);
   }
 
-  return next(req.clone({ url: `${baseUrl}${req.url}` }));
+  return next(req.clone({ url: `${inject(API_BASE_URL)}${req.url}` }));
 };
