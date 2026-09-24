@@ -13,14 +13,17 @@
 
 ## Buyer flow routes (all require `:applicationId`)
 
+All buyer flow pages are nested under the `/buyer` path prefix.
+
 ```
-/                               → home (landing, no applicationId)
-/get-started/:applicationId     → step 1 — buyer intro + QR
-/consent/:applicationId         → step 2 — T&C
-/buyer-details/:applicationId   → step 3 — personal info
-/verify-your-identity/:applicationId → step 4 — EID scan
-/verification-completed/:applicationId → step 5 — success
-/kfs/:applicationId             → step 6 — Key Facts Statement
+/                                          → home (landing, no applicationId)
+/not-found                                 → invalid / expired link error page
+/buyer/get-started/:applicationId          → step 1 — broker desktop QR + buyer mobile landing
+/buyer/consent/:applicationId              → step 2 — T&C
+/buyer/buyer-details/:applicationId        → step 3 — personal info
+/buyer/verify-your-identity/:applicationId → step 4 — EID scan
+/buyer/verification-completed/:applicationId → step 5 — success
+/buyer/kfs/:applicationId                  → step 6 — Key Facts Statement
 ```
 
 ## Shared UI components
