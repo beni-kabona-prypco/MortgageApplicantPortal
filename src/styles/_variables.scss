@@ -1,0 +1,164 @@
+// Design tokens as CSS custom properties (themeable, RTL-neutral).
+// Interim set — will be aligned with the @prypco/web-tokens design system later.
+
+:root {
+  // Typography
+  --font-family-sans: 'Aeonik', system-ui, -apple-system, 'Segoe UI', roboto, arial, sans-serif;
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-size-xs: 0.75rem; // 12px
+  --font-size-sm: 0.875rem; // 14px
+  --font-size-md: 1rem; // 16px
+  --font-size-lg: 1.125rem; // 18px
+  --font-size-xl: 1.25rem; // 20px
+  --font-size-2xl: 1.5rem; // 24px
+  --font-size-3xl: 1.875rem; // 30px
+  --font-size-4xl: 2rem; // 32px
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.7;
+  --line-height-xs: 1rem; // 16px — absolute leading paired with --font-size-xs (12px)
+  --line-height-sm: 1.125rem; // 18px — absolute leading paired with --font-size-sm (14px)
+
+  // Spacing (4px base)
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  // Radius
+  --radius-xs: 2px; // smallest rung — sort-indicator chip
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px; // section cards — replace when @prypco/web-tokens ships radius tokens
+  --radius-2xl: 1.5rem; // 24px — buyer portal cards
+  --radius-pill: 999px;
+
+  // Colors — neutrals / surfaces (design-system grey scale, Mortgage theme)
+  --color-bg: #fff; // grey.lightest
+  --color-page-background: #fafbfc; // page canvas behind routed content
+  --color-review-mode-bg: #f0d8b0; // warm parchment canvas — review-mode page
+  --color-review-mode-badge-bg: #fff9e8; // lightest alert yellow — review-mode badge fill
+  --color-surface: #fff; // bg primary
+  --color-surface-muted: #fcfcfc; // grey.x-lighter
+  --color-surface-secondary: #f5f5f5; // grey.lighter — tinted secondary surface (table header, subtle chrome)
+  --color-bg-canvas: #fafbfc; // app canvas / auth light panel
+  --color-bg-inverse: #1d1d1d; // dark panel background (auth, marketing splits)
+  --color-bg-inverse-hover: #2f2f2f; // hover state for dark buttons (e.g. Change status)
+  --color-instamortgage-bg: #002724; // mortgage/accent/evergreen — InstaMortgage badge circle
+  --color-instamortgage-icon: #d0fa58; // mortgage/accent/lime — InstaMortgage lightning icon
+  --color-surface-inverse: #1d1d1d; // grey.darker (avatar, login brand pane)
+  --color-backdrop: rgb(51 51 51 / 70%); // modal scrim (grey.darker @ 70%)
+  --color-border-subtle: #f5f5f5; // grey.lighter — barely-there dividers (outer table outline, row separators)
+  --color-border: #e5e5e5; // grey.light / bdr-light
+  --color-border-strong: #d5d5d5; // grey.default
+  --color-text: #333; // grey.darker (primary text)
+  --color-text-muted: #666; // grey.dark (txt secondary)
+  --color-text-subtle: #ababab; // grey.x-dark (txt tertiary)
+  // Figma-pinned `prypco-checkbox` `selectedBackgroundColor` override — deliberately
+  // darker than the DS default checked fill (grey-700). Same literal is duplicated as
+  // a raw #333 in filter-option/application-details-section/application-table
+  // (pre-existing, outside this token's introduction); consolidating those is tech debt.
+  --color-checkbox-selected-bg-override: #333;
+
+  // Same near-black, for DS components whose "selected" surface Pulse pins
+  // away from the brand purple (the date picker's selected day + year). Kept
+  // separate from the checkbox override so either can move alone; the wider
+  // consolidation of the raw #333 literals stays the tech debt noted above.
+  --color-selected-surface: #333;
+
+  // Semantic tint families for coloured tags / chips / banners.
+  // Checked against @prypco/web-themes/one-light: purple tints don't exactly
+  // match DS brand ramp (surface #f6f3f8 vs ds bg-brand-lightest #f5ebff, text
+  // #af61fd vs ds txt-brand #9b3afd) and the DS has no blue/info family yet —
+  // keep local until the DS ships a proper coloured-tag ramp.
+  --color-highlight-surface: #f6f3f8; // purple/accent/100 — subtle purple background
+  --color-highlight-border: #e0c2fe; // purple/primary/100 (matches ds bg-brand-lighter)
+  --color-highlight-text: #af61fd; // purple/primary/400
+  --color-highlight-icon: #bc7bfe; // purple/primary/300 — softer icon fill (matches ds bdr-brand-light)
+  --color-search-match-bg: #ffebb7; // <mark> background for search hits — matches Figma spec
+  --color-info-surface: #e6f0fc; // information/lightest — subtle blue background
+  --color-info-border: #b0d2f7; // information/lighter
+  --color-info-icon: #016de5; // information/default — icon fill on info surfaces
+  --color-info-text: #016de5; // information/default
+  --color-alert-surface: #faf3e6; // alert/lightest — subtle orange background
+  --color-alert-border: #f0d8b0; // alert/lighter
+  --color-alert-icon: #deab54; // alert/light — icon fill on alert surfaces (also chip label / prefix)
+  --color-alert-icon-strong: #cd8200; // alert/medium — stronger icon (e.g. rate-warning)
+  --color-alert-label: var(--color-alert-icon); // alias — same tint, semantic name for chip label
+  --color-alert-text: #bb7600; // alert/dark — chip value + strong text
+  --color-error-surface: #fdecec; // error/lightest — subtle red background (edit-mode required cell)
+  --color-error-icon: #ec5454; // error/light — softer red used by code dots + status pills
+  --color-success-icon: #54b079; // success/light — softer green used by code dots + status pills
+
+  // Mortgage brand accent (Figma token `mortgage/accent/lime`). Not part of
+  // the DS palette — kept local until a mortgage-themed DS ramp lands. Used
+  // for the client-cell badge lightning icon (the evergreen background is
+  // already covered by the DS `<prypco-badge color="dark">` token).
+  --color-mortgage-lime: #d0fa58; // mortgage/accent/lime
+
+  // Interaction
+  --focus-ring: 0 0 0 3px rgb(35 134 101 / 35%);
+  --hover-surface: #f5f5f5;
+  --active-surface: #e9e9e9; // grey.x-default (selected nav item)
+
+  // Elevation
+  --shadow-sm: 0 1px 2px rgb(16 24 40 / 6%);
+  --shadow-md: 0 4px 12px rgb(16 24 40 / 10%);
+  --shadow-lg: 0 12px 32px rgb(16 24 40 / 14%);
+  --shadow-panel: 0 2px 40px rgb(0 0 0 / 2%); // elevated section cards — replace when @prypco/web-tokens ships shadow tokens
+  --shadow-card: 4px 4px 10px rgb(10 10 28 / 2%); // buyer portal centered card
+  --shadow-popover: 0 4px 4px rgb(0 0 0 / 8%); // shared elevation for actions-list / option-selector / filter popovers
+  --shadow-sticky-column: -2px 0 8px rgb(0 0 0 / 8%); // trailing edge of a sticky data-table column when the body scrolls under it
+  --shadow-sticky-column-start: 4px 0 8px -4px rgb(0 0 0 / 8%); // trailing edge of a start-pinned sticky column; negative spread cancels leftward blur bleed onto the adjacent sticky column
+
+  // Skeleton loaders (used by the shimmer mixin)
+  --skeleton-base-color: #e9e9e9; // grey.x-default
+  --skeleton-highlight-color: #f5f5f5; // grey.lighter
+  --skeleton-animation-duration: 1.4s;
+
+  // Z-index scale
+  --z-base: 1;
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-overlay: 1040;
+  --z-modal: 1050;
+  --z-toast: 1080;
+  --z-tooltip: 1090;
+
+  // Layout
+  // App-wide zoom factor (like a default browser zoom): 1 = 100% (no zoom);
+  // lower values zoom the whole app out, e.g. 0.9 ≈ a 90% browser zoom.
+  --app-zoom: 1;
+
+  // Full-viewport height that still fills the screen under `zoom` (see _reset.scss):
+  // raw vh/dvh are computed then scaled by zoom and fall short, so divide by the factor.
+  // Full-height route hosts must use this instead of `100dvh`/`100vh`.
+  --viewport-block: calc(100dvh / var(--app-zoom));
+  --layout-header-height: 64px;
+  --layout-sidebar-width: 260px;
+  --layout-sidebar-width-collapsed: 72px;
+  --layout-sidebar-rail-width: 112px;
+  --layout-content-max: 1440px;
+  --layout-min-width: 960px; // desktop-only floor — below this the app scrolls horizontally
+  --layout-auth-form-max: 422px;
+  --layout-detail-aside-width: 464px; // application-detail messages column
+  --layout-edit-clone-content-width: 1082px; // Figma "clone-draft" content column — centered, not edge-to-edge
+  --layout-modal-max-height: calc(100vh - 160px); // viewport cap for long-form modals
+  --layout-table-header-height: 2.75rem; // 44px — data-table header row
+  --layout-table-row-height: 4.5rem; // 72px per Figma data-table row
+  --layout-table-footer-height: 3.75rem; // 60px — data-table pagination footer
+  --layout-table-actions-width: 4.25rem; // 68px — sticky actions column (row-kebab menu)
+  --layout-smart-filters-height: 3.625rem; // 58px — applications-list smart-filters strip
+  --size-dot: 1.25rem; // 20px — portfolio color-code dot indicator
+  --size-sort-indicator: 0.75rem; // 12px — active sort chip behind a table header's chevrons
+}

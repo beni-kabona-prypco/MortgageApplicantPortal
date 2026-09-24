@@ -1,0 +1,22 @@
+{
+  "apiBaseUrl": "https://red.api.prypco.com/instamortgage/api",
+  "ory": {
+    "baseUrl": "https://red.api.prypco.com/user/ory"
+  },
+  "amplitude": {
+    "apiKey": "59a9af5fef605b099b685b1b3ce99f6c",
+    "enabled": false
+  },
+  "datadog": {
+    "applicationId": "eabd93f1-21c8-44f4-8841-d7e60e277506",
+    "clientToken": "pubb4b52a7acb737954edf19ea1ae7c5d62",
+    "service": "instamortgage-buyer-dev",
+    "env": "dev",
+    "enabled": false,
+    "sessionReplaySampleRate": 0
+  },
+  "hotjar": {
+    "siteId": "",
+    "enabled": false
+  }
+}

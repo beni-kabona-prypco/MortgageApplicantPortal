@@ -1,0 +1,32 @@
+@use 'styles/fonts';
+@use 'styles/variables';
+@use 'styles/reset';
+
+@import '@angular/cdk/overlay-prebuilt.css';
+
+// Brand color override — instamortgage-buyer uses black as primary instead of
+// the one-light purple. Declared after the theme import so these win the cascade.
+[data-prypco-theme] {
+  --prypco-color-bg-brand-pri: #000000;
+  --prypco-color-bg-brand-sec: #222222;
+  --prypco-color-txt-brand: #000000;
+  --prypco-color-ico-brand: #000000;
+  --prypco-color-bdr-brand: #000000;
+  --prypco-color-bdr-brand-light: #444444;
+  --prypco-color-bg-brand-lightest: #f2f2f2;
+  --prypco-color-bg-brand-lighter: #cccccc;
+}
+
+app-root {
+  display: block;
+  height: 100%;
+}
+
+.cdk-overlay-container {
+  z-index: var(--z-toast);
+}
+
+prypco-modal,
+.prypco-modal-backdrop {
+  z-index: var(--z-modal);
+}

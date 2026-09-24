@@ -1,0 +1,16 @@
+<div class="page-layout">
+  <header class="page-layout__nav">
+    <ng-content select="[pageNav]"></ng-content>
+  </header>
+
+  <main class="page-layout__content">
+    <ng-content></ng-content>
+  </main>
+
+  <footer class="page-layout__actions">
+    <ng-content select="[pageActions]"></ng-content>
+    <prypco-text variant="paragraph-regular-xs" color="var(--color-text-muted)" align="center">
+      Powered by InstaMortgage
+    </prypco-text>
+  </footer>
+</div>

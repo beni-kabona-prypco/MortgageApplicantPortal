@@ -1,0 +1,114 @@
+:host {
+  display: contents;
+}
+
+// ── Desktop card ──────────────────────────────────────────────────────────────
+
+.get-started__card {
+  display: none;
+
+  @media (width >= 768px) {
+    display: block;
+    width: 900px;
+    height: 480px;
+    padding: 14px calc(var(--space-6) + var(--space-2)); // 14px 40px
+  }
+}
+
+// ── Two-column layout ─────────────────────────────────────────────────────────
+
+.get-started__content {
+  display: flex;
+  align-items: center;
+  gap: 41px;
+  height: 100%;
+}
+
+// ── Left: info column ─────────────────────────────────────────────────────────
+
+.get-started__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4); // 16px
+  width: 338px;
+  flex-shrink: 0;
+}
+
+// 86px container centers the greeting text vertically
+.get-started__greeting-wrap {
+  display: flex;
+  align-items: center;
+  height: 86px;
+  width: 100%;
+}
+
+.get-started__greeting {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2); // 8px
+}
+
+.get-started__steps-outer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4); // 16px
+  width: 100%;
+}
+
+.get-started__steps-inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4); // 16px
+}
+
+.get-started__steps-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2); // 8px
+}
+
+.get-started__steps-list {
+  margin: 0;
+  padding-inline-start: var(--space-5); // 24px — list marker indent
+
+  li {
+    margin: 0;
+    line-height: 24px;
+  }
+}
+
+// ── Right: QR visual ──────────────────────────────────────────────────────────
+
+.get-started__qr-visual {
+  position: relative;
+  width: 449px;
+  height: 408px;
+  flex-shrink: 0;
+  border-radius: var(--radius-xl); // 16px
+  overflow: hidden;
+}
+
+// desktop-background.svg includes the #002724 bg + city photo overlay
+.get-started__qr-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// White card overlaid on background, offset per Figma
+.get-started__qr-card {
+  position: absolute;
+  left: 35px; // Figma: 34.66px
+  top: 27px; // Figma: 26.51px
+  width: 380px; // Figma: 379.68px
+  height: 355px; // Figma: 354.975px
+  background: var(--color-surface);
+  border-radius: 14px; // Figma: 14.095px
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}

@@ -1,0 +1,22 @@
+{
+  "apiBaseUrl": "https://staging.api.prypco.com/instamortgage/api",
+  "ory": {
+    "baseUrl": "https://staging.api.prypco.com/user/ory"
+  },
+  "amplitude": {
+    "apiKey": "59a9af5fef605b099b685b1b3ce99f6c",
+    "enabled": true
+  },
+  "datadog": {
+    "applicationId": "016ac22a-ecc8-469a-9f6c-8df26b4daa26",
+    "clientToken": "pub790c3456f757b09c0c08c80a0d47ba50",
+    "service": "instamortgage-buyer-staging",
+    "env": "staging",
+    "enabled": true,
+    "sessionReplaySampleRate": 0
+  },
+  "hotjar": {
+    "siteId": "",
+    "enabled": false
+  }
+}

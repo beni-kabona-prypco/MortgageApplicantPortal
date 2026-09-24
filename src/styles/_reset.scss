@@ -1,0 +1,137 @@
+// Modern, minimal reset + element base styles. RTL-safe: uses logical
+// properties so it works under both `dir="ltr"` and `dir="rtl"`.
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+html {
+  text-size-adjust: 100%;
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-normal);
+  color: var(--color-text);
+  text-align: start;
+  background: var(--color-page-background);
+
+  // Grayscale antialiasing matches Figma's text rendering — macOS subpixel AA
+  // otherwise renders Aeonik visibly heavier than the design.
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-block: 0 var(--space-3);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+}
+
+p {
+  margin-block: 0 var(--space-3);
+}
+
+ul,
+ol {
+  margin: 0;
+  padding-inline-start: var(--space-5);
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+// DS input components manage their own focus style via the wrapper's border-color;
+// suppress the global focus ring on their inner native inputs.
+prypco-input input:focus-visible,
+prypco-textarea textarea:focus-visible,
+prypco-password-input input:focus-visible,
+prypco-otp-input input:focus-visible,
+prypco-document textarea:focus-visible {
+  box-shadow: none;
+}
+
+// prypco-input: default border tracks `--color-border` so search inputs
+// visually align with the sibling filter / date-range triggers; on hover
+// or focus the border darkens to `--color-text` (matches the triggers'
+// hover state).
+prypco-textarea,
+prypco-input {
+  --prypco-color-inp-surf-default: var(--color-border);
+  --prypco-color-inp-surf-hover: var(--color-text);
+  --prypco-color-inp-surf-active: var(--color-text);
+}
+
+// prypco-otp-input: transparent boxes, 60×60px, full-width space-between layout.
+prypco-otp-input {
+  --prypco-color-inp-label-bg: transparent;
+  --prypco-color-inp-surf-hover: var(--color-text);
+  --prypco-color-inp-surf-active: var(--color-text);
+}
+
+prypco-otp-input .prypco-otp-input__boxes {
+  inline-size: 100%;
+  justify-content: space-between;
+  gap: 0;
+}
+
+prypco-otp-input .prypco-otp-input__box {
+  inline-size: 60px;
+  block-size: 60px;
+}
+
+// prypco-switch: constrain to 32px block-size (matching Figma spec) including border.
+prypco-switch {
+  block-size: var(--space-6);
+}
+
+// Screen-reader-only utility.
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
