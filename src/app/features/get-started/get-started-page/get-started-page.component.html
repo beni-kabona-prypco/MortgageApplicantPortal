@@ -1,94 +1,154 @@
-<app-page-layout>
-  <app-top-nav-buyer
-    pageNav
-    brokerName="Broker Name"
-    brokerageName="Brokerage Name"
-    [appId]="applicationId()"
-  />
+@if (viewport.isDesktop()) {
+  <!-- ── Desktop: QR code page ────────────────────────────────────────────────── -->
+  <app-page-layout>
+    <app-top-nav-buyer
+      pageNav
+      [brokerName]="brokerName()"
+      [brokerageName]="brokerageName()"
+      [brokerageLogo]="brokerageLogo()"
+      [appId]="shortId() || applicationId()"
+    />
 
-  <app-page-card class="get-started__card">
-    <div class="get-started__content">
-      <!-- Left: info column -->
-      <div class="get-started__info">
-        <div class="get-started__greeting-wrap">
-          <div class="get-started__greeting">
-            <prypco-text variant="heading-bold-md" color="var(--color-instamortgage-bg)">
-              Hello {{ buyerFirstName }},
-            </prypco-text>
-            <prypco-text variant="paragraph-regular-lg" color="var(--color-instamortgage-bg)">
-              It's time to get pre-approved instantly!
-            </prypco-text>
-          </div>
-        </div>
-
-        <div class="get-started__steps-outer">
-          <div class="get-started__steps-inner">
-            <div class="get-started__steps-header">
-              <prypco-text variant="paragraph-bold-xl" color="var(--color-instamortgage-bg)">
-                How it works?
+    <app-page-card class="get-started__card">
+      <div class="get-started__content">
+        <!-- Left: info column -->
+        <div class="get-started__info">
+          <div class="get-started__greeting-wrap">
+            <div class="get-started__greeting">
+              <prypco-text variant="heading-bold-md" color="var(--color-instamortgage-bg)">
+                Hello,
               </prypco-text>
-              <prypco-text variant="paragraph-medium-md" color="var(--color-instamortgage-bg)">
-                On your phone, you need to:
+              <prypco-text variant="paragraph-regular-lg" color="var(--color-instamortgage-bg)">
+                It's time to get pre-approved instantly!
               </prypco-text>
             </div>
-            <ol class="get-started__steps-list">
-              <li>
-                <prypco-text element="span" variant="paragraph-regular-md" color="var(--color-text-muted)">
-                  Scan the QR code
-                </prypco-text>
-              </li>
-              <li>
-                <prypco-text element="span" variant="paragraph-regular-md" color="var(--color-text-muted)">
-                  Agree to terms and conditions
-                </prypco-text>
-              </li>
-              <li>
-                <prypco-text element="span" variant="paragraph-regular-md" color="var(--color-text-muted)">
-                  Tell us a bit more about you
-                </prypco-text>
-              </li>
-              <li>
-                <prypco-text element="span" variant="paragraph-regular-md" color="var(--color-text-muted)">
-                  On your phone, scan your Emirates ID
-                </prypco-text>
-              </li>
-              <li>
-                <prypco-text element="span" variant="paragraph-regular-md" color="var(--color-text-muted)">
-                  Verify your identity with face scan
-                </prypco-text>
-              </li>
-              <li>
-                <prypco-text element="span" variant="paragraph-regular-md" color="var(--color-text-muted)">
-                  Once the offer is chosen, you will need to agree to "Key Facts Statement"
-                </prypco-text>
-              </li>
-            </ol>
           </div>
-          <prypco-text variant="paragraph-medium-md" color="var(--color-text)">
-            This will take less than 2 minutes!
-          </prypco-text>
-        </div>
-      </div>
 
-      <!-- Right: QR visual -->
-      <div class="get-started__qr-visual">
-        <img
-          src="/assets/desktop-background.svg"
-          alt=""
-          aria-hidden="true"
-          class="get-started__qr-bg"
-        />
-        <div class="get-started__qr-card">
-          <qrcode
-            [qrdata]="qrCodeUrl()"
-            [width]="296"
-            [margin]="2"
-            colorDark="#000000"
-            colorLight="#ffffff"
-            elementType="canvas"
+          <div class="get-started__steps-outer">
+            <div class="get-started__steps-inner">
+              <div class="get-started__steps-header">
+                <prypco-text variant="paragraph-bold-xl" color="var(--color-instamortgage-bg)">
+                  How it works?
+                </prypco-text>
+                <prypco-text variant="paragraph-medium-md" color="var(--color-instamortgage-bg)">
+                  On your phone, you need to:
+                </prypco-text>
+              </div>
+              <ol class="get-started__steps-list">
+                <li>
+                  <prypco-text
+                    element="span"
+                    variant="paragraph-regular-md"
+                    color="var(--color-text-muted)"
+                  >
+                    Scan the QR code
+                  </prypco-text>
+                </li>
+                <li>
+                  <prypco-text
+                    element="span"
+                    variant="paragraph-regular-md"
+                    color="var(--color-text-muted)"
+                  >
+                    Agree to terms and conditions
+                  </prypco-text>
+                </li>
+                <li>
+                  <prypco-text
+                    element="span"
+                    variant="paragraph-regular-md"
+                    color="var(--color-text-muted)"
+                  >
+                    Tell us a bit more about you
+                  </prypco-text>
+                </li>
+                <li>
+                  <prypco-text
+                    element="span"
+                    variant="paragraph-regular-md"
+                    color="var(--color-text-muted)"
+                  >
+                    On your phone, scan your Emirates ID
+                  </prypco-text>
+                </li>
+                <li>
+                  <prypco-text
+                    element="span"
+                    variant="paragraph-regular-md"
+                    color="var(--color-text-muted)"
+                  >
+                    Verify your identity with face scan
+                  </prypco-text>
+                </li>
+                <li>
+                  <prypco-text
+                    element="span"
+                    variant="paragraph-regular-md"
+                    color="var(--color-text-muted)"
+                  >
+                    Once the offer is chosen, you will need to agree to &ldquo;Key Facts
+                    Statement&rdquo;
+                  </prypco-text>
+                </li>
+              </ol>
+            </div>
+            <prypco-text variant="paragraph-medium-md" color="var(--color-text)">
+              This will take less than 2 minutes!
+            </prypco-text>
+          </div>
+        </div>
+
+        <!-- Right: QR visual -->
+        <div class="get-started__qr-visual">
+          <img
+            src="/assets/desktop-background.svg"
+            alt=""
+            aria-hidden="true"
+            class="get-started__qr-bg"
           />
+          <div class="get-started__qr-card">
+            @if (isVerificationDetected()) {
+              <div class="get-started__verified">
+                <prypco-text variant="paragraph-bold-xl" color="var(--color-instamortgage-bg)">
+                  Verification complete!
+                </prypco-text>
+                <prypco-text variant="paragraph-regular-md" color="var(--color-text-muted)">
+                  The buyer has successfully verified their identity.
+                </prypco-text>
+              </div>
+            } @else {
+              <qrcode
+                [qrdata]="qrCodeUrl()"
+                [width]="296"
+                [margin]="2"
+                colorDark="#000000"
+                colorLight="#ffffff"
+                elementType="canvas"
+              />
+            }
+          </div>
         </div>
       </div>
+    </app-page-card>
+  </app-page-layout>
+} @else {
+  <!-- ── Mobile: how it works / resume ───────────────────────────────────────── -->
+  @if (isLoading()) {
+    <div class="get-started__mobile-loading" aria-label="Loading" aria-busy="true">
+      <span class="get-started__spinner"></span>
     </div>
-  </app-page-card>
-</app-page-layout>
+  } @else {
+    <app-get-started-mobile
+      [applicationId]="applicationId()"
+      [buyerFirstName]="buyerFirstName()"
+      [brokerName]="brokerName()"
+      [brokerageName]="brokerageName()"
+      [shortId]="shortId()"
+      [brokerageLogo]="brokerageLogo()"
+      [isResume]="isConsentAccepted()"
+      [isInfoProvided]="isAdditionalInfoProvided()"
+      [isEkycCompleted]="isEkycCompleted()"
+      (ctaClick)="handleCtaClick()"
+    />
+  }
+}
