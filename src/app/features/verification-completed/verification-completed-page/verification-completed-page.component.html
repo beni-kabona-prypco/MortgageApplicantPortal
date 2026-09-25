@@ -1,4 +1,4 @@
-<app-page-layout>
+<app-page-layout [centered]="true">
   <app-top-nav-buyer
     pageNav
     [brokerName]="brokerName()"
@@ -32,6 +32,7 @@
       <prypco-text
         variant="heading-bold-md"
         [fontSize]="isDesktop() ? 32 : 23"
+        [lineHeight]="'1.2'"
         color="white"
         align="center"
         class="verification-completed__heading"
@@ -42,6 +43,7 @@
       <prypco-text
         variant="paragraph-regular-lg"
         [fontSize]="isDesktop() ? 18 : 16"
+        [lineHeight]="'1.5'"
         color="white"
         align="center"
         class="verification-completed__body"
