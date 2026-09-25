@@ -195,14 +195,15 @@ export class BuyerDetailsPageComponent {
     this.isSubmitting.set(true);
 
     const f = this.fields();
-    const existingApplicant = data.applicants[0] ?? {};
+    // Strip companyName before spreading — PUT schema rejects it; name lives in companyDetails.name.
+    const applicantBase = { ...(data.applicants[0] ?? {}) } as Record<string, unknown>;
+    delete applicantBase['companyName'];
 
     const updatedApplicant = {
-      ...existingApplicant,
+      ...applicantBase,
       email: f.email,
       businessEmail: f.businessEmail,
       salary: this.parseNumber(f.salary),
-      companyName: f.companyName,
       companyDetails: {
         name: f.companyName,
         joiningMonth: parseInt(f.joiningMonth, 10),
