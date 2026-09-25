@@ -60,14 +60,64 @@ describe('ConsentService', () => {
     });
   });
 
+  // ── getApplicationFresh ────────────────────────────────────────────────────
+
+  describe('getApplicationFresh()', () => {
+    const FRESH_APP_ID = 'app-fresh-456';
+
+    const freshResponse: GetConsentApplicationResponse = {
+      success: true,
+      statusCode: 200,
+      errorDetails: null,
+      data: {
+        id: FRESH_APP_ID,
+        applicationData: {
+          id: FRESH_APP_ID,
+          short_id: 'IM-0002',
+          broker: { id: 'b2', name: 'Fresh Broker', logo: '' },
+          brokerage: { id: 'bg2', name: 'Fresh Brokerage', logo: '' },
+          links: { eKyc: { redirectUrl: 'https://kyc.example.com/fresh' } },
+        },
+      },
+    };
+
+    it('GETs /Buyer/Application/:id', () => {
+      service.getApplicationFresh(FRESH_APP_ID).subscribe();
+      const req = httpMock.expectOne(`/Buyer/Application/${FRESH_APP_ID}`);
+      expect(req.request.method).toBe('GET');
+      req.flush({});
+    });
+
+    it('re-fetches even when application is already cached', () => {
+      service.getApplication(FRESH_APP_ID).subscribe();
+      httpMock.expectOne(`/Buyer/Application/${FRESH_APP_ID}`).flush(freshResponse);
+
+      service.getApplicationFresh(FRESH_APP_ID).subscribe();
+      const req = httpMock.expectOne(`/Buyer/Application/${FRESH_APP_ID}`);
+      expect(req.request.method).toBe('GET');
+      req.flush(freshResponse);
+    });
+
+    it('returns the response body', () => {
+      let result: GetConsentApplicationResponse | undefined;
+
+      service.getApplicationFresh(FRESH_APP_ID).subscribe(r => (result = r));
+      httpMock.expectOne(`/Buyer/Application/${FRESH_APP_ID}`).flush(freshResponse);
+
+      expect(result).toEqual(freshResponse);
+    });
+  });
+
   // ── submitConsent ──────────────────────────────────────────────────────────
 
   describe('submitConsent()', () => {
+    const consent = { accepted: true, timestamp: 1234567890 };
     const request: SubmitConsentRequest = {
       externalId: 'app-123',
-      bureau: true,
-      tnc: true,
-      dataAccuracy: true,
+      bureau: consent,
+      tnc: consent,
+      dataAccuracy: consent,
+      request: consent,
     };
 
     it('PUTs /CustomerPortal/application/consents', () => {

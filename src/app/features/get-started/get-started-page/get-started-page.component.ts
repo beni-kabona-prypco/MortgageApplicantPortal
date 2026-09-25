@@ -15,6 +15,7 @@ import { timer } from 'rxjs';
 import { map, switchMap, take, takeWhile } from 'rxjs/operators';
 
 import { AMPLITUDE_SDK } from '@core/amplitude';
+import { ConsentStateService } from '@core/consent';
 import { ViewportService } from '@core/viewport';
 import { PageCardComponent } from '@shared/ui/page-card';
 import { PageLayoutComponent } from '@shared/ui/page-layout';
@@ -46,6 +47,7 @@ export class GetStartedPageComponent {
   private readonly service = inject(GetStartedService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly amplitude = inject(AMPLITUDE_SDK);
+  private readonly consentState = inject(ConsentStateService);
   protected readonly viewport = inject(ViewportService);
 
   protected readonly applicationId = toSignal(
@@ -128,7 +130,7 @@ export class GetStartedPageComponent {
 
       timer(0, POLL_INTERVAL_MS)
         .pipe(
-          switchMap(() => this.service.getApplication(appId)),
+          switchMap(() => this.service.pollApplication(appId)),
           // inclusive: process the terminal response, then complete
           takeWhile(
             res => !TERMINAL_STATUSES.includes(res.data?.applicationData.status ?? ''),
@@ -140,6 +142,7 @@ export class GetStartedPageComponent {
           next: res => {
             if (res.success && res.data) {
               this.appData.set(res.data);
+              this.isLoading.set(false);
 
               if (TERMINAL_STATUSES.includes(res.data.applicationData.status)) {
                 this.isVerificationDetected.set(true);
@@ -218,8 +221,13 @@ export class GetStartedPageComponent {
     }
 
     if (status === APPRO_STATUS.PENDING && !businessEmail) {
-      const next = this.isConsentAccepted() ? 'buyer-details' : 'consent';
-      this.router.navigate(['/buyer', next, appId]);
+      if (this.isConsentAccepted()) {
+        this.consentState.approve(appId);
+        this.router.navigate(['/buyer/buyer-details', appId]);
+      } else {
+        this.router.navigate(['/buyer/consent', appId]);
+      }
+
       return;
     }
 

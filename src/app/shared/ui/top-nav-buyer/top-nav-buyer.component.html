@@ -1,57 +1,68 @@
 <div class="top-nav">
-  <div class="top-nav__identity">
-    <div class="top-nav__avatar" aria-hidden="true">
-      @if (brokerageLogo()) {
-        <img class="top-nav__brokerage-logo" [src]="brokerageLogo()" alt="" aria-hidden="true" />
-      } @else {
-        <!-- Heroicons outline phone (24×24 viewBox, rendered at 16px) -->
-        <svg
-          class="top-nav__phone-icon"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.5"
-          aria-hidden="true"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"
-          />
-        </svg>
-      }
+  @if (loading()) {
+    <div class="top-nav__identity">
+      <div class="top-nav__skeleton-avatar top-nav__skeleton-shimmer"></div>
+      <div class="top-nav__skeleton-name top-nav__skeleton-shimmer"></div>
     </div>
+    <div class="top-nav__skeleton-badge top-nav__skeleton-shimmer"></div>
+  } @else {
+    <div class="top-nav__identity">
+      <div class="top-nav__avatar" aria-hidden="true">
+        @if (brokerageLogo()) {
+          <img class="top-nav__brokerage-logo" [src]="brokerageLogo()" alt="" aria-hidden="true" />
+        } @else {
+          <!-- Heroicons outline phone (24×24 viewBox, rendered at 16px) -->
+          <svg
+            class="top-nav__phone-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"
+            />
+          </svg>
+        }
+      </div>
 
-    <!-- Mobile: brokerage name only -->
-    <prypco-text
-      class="top-nav__brokerage-mobile"
-      variant="mobile-paragraph-bold-md"
-      color="var(--color-text)"
-      [noWrap]="true"
-      >{{ brokerageName() }}</prypco-text
-    >
-
-    <!-- Desktop: Broker_Name | Brokerage_Name -->
-    <div class="top-nav__names-desktop">
-      <prypco-text variant="paragraph-bold-md" color="var(--color-text)" [noWrap]="true">{{
-        brokerName()
-      }}</prypco-text>
-      <prypco-text variant="paragraph-regular-xs" color="var(--color-text-muted)" aria-hidden="true"
-        >|</prypco-text
-      >
+      <!-- Mobile: brokerage name only -->
       <prypco-text
-        variant="paragraph-regular-md"
-        color="var(--color-text-muted)"
-        [truncate]="true"
-        [tooltipOnTruncate]="false"
+        class="top-nav__brokerage-mobile"
+        variant="mobile-paragraph-bold-md"
+        color="var(--color-text)"
+        [noWrap]="true"
         >{{ brokerageName() }}</prypco-text
       >
-    </div>
-  </div>
 
-  <div class="top-nav__id-badge">
-    <prypco-text variant="paragraph-regular-xs" color="var(--color-text-muted)" [noWrap]="true">
-      ID #{{ appId() }}
-    </prypco-text>
-  </div>
+      <!-- Desktop: Broker_Name | Brokerage_Name -->
+      <div class="top-nav__names-desktop">
+        <prypco-text variant="paragraph-bold-md" color="var(--color-text)" [noWrap]="true">{{
+          brokerName()
+        }}</prypco-text>
+        <prypco-text
+          variant="paragraph-regular-xs"
+          color="var(--color-text-muted)"
+          aria-hidden="true"
+          >|</prypco-text
+        >
+        <prypco-text
+          variant="paragraph-regular-md"
+          color="var(--color-text-muted)"
+          [truncate]="true"
+          [tooltipOnTruncate]="false"
+          >{{ brokerageName() }}</prypco-text
+        >
+      </div>
+    </div>
+
+    <div class="top-nav__id-badge">
+      <prypco-text variant="paragraph-regular-xs" color="var(--color-text-muted)" [noWrap]="true">
+        ID #{{ appId() }}
+      </prypco-text>
+    </div>
+  }
 </div>

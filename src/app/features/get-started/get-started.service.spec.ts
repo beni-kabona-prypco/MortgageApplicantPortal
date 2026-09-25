@@ -77,4 +77,55 @@ describe('GetStartedService', () => {
 
     req.flush(mockResponse);
   });
+
+  it('serves a second subscriber from cache without a second HTTP call', () => {
+    service.getApplication(applicationId).subscribe();
+    httpMock.expectOne(`/Buyer/Application/${applicationId}`).flush(mockResponse);
+
+    // Second subscription should replay cached value — no new request outstanding
+    let result: GetApplicationResponse | undefined;
+
+    service.getApplication(applicationId).subscribe(res => {
+      result = res;
+    });
+    httpMock.expectNone(`/Buyer/Application/${applicationId}`);
+
+    expect(result).toEqual(mockResponse);
+  });
+
+  // ── pollApplication ────────────────────────────────────────────────────────
+
+  describe('pollApplication()', () => {
+    it('calls GET /Buyer/Application/:id', () => {
+      service.pollApplication(applicationId).subscribe();
+
+      const req = httpMock.expectOne(`/Buyer/Application/${applicationId}`);
+
+      expect(req.request.method).toBe('GET');
+      req.flush(mockResponse);
+    });
+
+    it('returns the full response body', () => {
+      let result: GetApplicationResponse | undefined;
+
+      service.pollApplication(applicationId).subscribe(res => {
+        result = res;
+      });
+
+      httpMock.expectOne(`/Buyer/Application/${applicationId}`).flush(mockResponse);
+
+      expect(result).toEqual(mockResponse);
+    });
+
+    it('bypasses cache and makes a new HTTP call even when already cached', () => {
+      service.getApplication(applicationId).subscribe();
+      httpMock.expectOne(`/Buyer/Application/${applicationId}`).flush(mockResponse);
+
+      service.pollApplication(applicationId).subscribe();
+      const req = httpMock.expectOne(`/Buyer/Application/${applicationId}`);
+
+      expect(req.request.method).toBe('GET');
+      req.flush(mockResponse);
+    });
+  });
 });

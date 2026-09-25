@@ -40,11 +40,17 @@ export interface TncSection {
   readonly items?: readonly string[];
 }
 
+export interface ConsentItem {
+  readonly accepted: boolean;
+  readonly timestamp: number;
+}
+
 export interface SubmitConsentRequest {
   readonly externalId: string;
-  readonly bureau: boolean;
-  readonly tnc: boolean;
-  readonly dataAccuracy: boolean;
+  readonly bureau: ConsentItem;
+  readonly tnc: ConsentItem;
+  readonly dataAccuracy: ConsentItem;
+  readonly request: ConsentItem;
 }
 
 export interface SubmitConsentResponse {

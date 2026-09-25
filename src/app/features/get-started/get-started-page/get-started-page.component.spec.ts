@@ -58,13 +58,17 @@ describe('GetStartedPageComponent', () => {
   let isDesktopSig: ReturnType<typeof signal<boolean>>;
 
   beforeEach(async () => {
-    serviceSpy = jasmine.createSpyObj<GetStartedService>('GetStartedService', ['getApplication']);
+    serviceSpy = jasmine.createSpyObj<GetStartedService>('GetStartedService', [
+      'getApplication',
+      'pollApplication',
+    ]);
     routerSpy = jasmine.createSpyObj<Router>('Router', ['navigate']);
     amplitudeSpy = jasmine.createSpyObj<AmplitudeSdk>('AmplitudeSdk', ['init', 'track', 'reset']);
     isDesktopSig = signal(false);
 
     routerSpy.navigate.and.returnValue(Promise.resolve(true));
     serviceSpy.getApplication.and.returnValue(of(makeResponse(APPRO_STATUS.PENDING)));
+    serviceSpy.pollApplication.and.returnValue(of(makeResponse(APPRO_STATUS.PENDING)));
 
     await TestBed.configureTestingModule({
       imports: [GetStartedPageComponent],
@@ -213,12 +217,12 @@ describe('GetStartedPageComponent', () => {
       isDesktopSig.set(true);
     });
 
-    it('calls getApplication immediately on init', fakeAsync(() => {
+    it('polls immediately on init via pollApplication', fakeAsync(() => {
       fixture.detectChanges();
       flushMicrotasks();
       tick(0);
 
-      expect(serviceSpy.getApplication).toHaveBeenCalledWith(APP_ID);
+      expect(serviceSpy.pollApplication).toHaveBeenCalledWith(APP_ID);
 
       discardPeriodicTasks();
     }));
@@ -228,13 +232,13 @@ describe('GetStartedPageComponent', () => {
       flushMicrotasks();
       tick(0);
 
-      expect(serviceSpy.getApplication).toHaveBeenCalledTimes(1);
+      expect(serviceSpy.pollApplication).toHaveBeenCalledTimes(1);
 
       tick(POLL_INTERVAL_MS);
-      expect(serviceSpy.getApplication).toHaveBeenCalledTimes(2);
+      expect(serviceSpy.pollApplication).toHaveBeenCalledTimes(2);
 
       tick(POLL_INTERVAL_MS);
-      expect(serviceSpy.getApplication).toHaveBeenCalledTimes(3);
+      expect(serviceSpy.pollApplication).toHaveBeenCalledTimes(3);
 
       discardPeriodicTasks();
     }));
@@ -242,7 +246,7 @@ describe('GetStartedPageComponent', () => {
     it('stops polling when a terminal status is returned', fakeAsync(() => {
       let callCount = 0;
 
-      serviceSpy.getApplication.and.callFake(() => {
+      serviceSpy.pollApplication.and.callFake(() => {
         callCount++;
         const status = callCount === 2 ? APPRO_STATUS.AWAITING_BANK_APPROVAL : APPRO_STATUS.PENDING;
 
@@ -261,7 +265,7 @@ describe('GetStartedPageComponent', () => {
     }));
 
     it('sets isVerificationDetected when terminal status is received', fakeAsync(() => {
-      serviceSpy.getApplication.and.returnValue(
+      serviceSpy.pollApplication.and.returnValue(
         of(makeResponse(APPRO_STATUS.AWAITING_BANK_APPROVAL))
       );
 
@@ -270,6 +274,16 @@ describe('GetStartedPageComponent', () => {
       tick(0);
 
       expect(component['isVerificationDetected']()).toBeTrue();
+    }));
+
+    it('sets isLoading to false after first poll response', fakeAsync(() => {
+      fixture.detectChanges();
+      flushMicrotasks();
+      tick(0);
+
+      expect(component['isLoading']()).toBeFalse();
+
+      discardPeriodicTasks();
     }));
 
     it('fires buyer_qr_code_displayed on desktop init', fakeAsync(() => {
@@ -284,7 +298,7 @@ describe('GetStartedPageComponent', () => {
     }));
 
     it('fires buyer_verification_detected when terminal status is received', fakeAsync(() => {
-      serviceSpy.getApplication.and.returnValue(
+      serviceSpy.pollApplication.and.returnValue(
         of(makeResponse(APPRO_STATUS.AWAITING_BANK_APPROVAL))
       );
 
@@ -312,7 +326,7 @@ describe('GetStartedPageComponent', () => {
     }));
 
     it('navigates to /not-found on API error during polling', fakeAsync(() => {
-      serviceSpy.getApplication.and.returnValue(throwError(() => new Error('Network error')));
+      serviceSpy.pollApplication.and.returnValue(throwError(() => new Error('Network error')));
 
       fixture.detectChanges();
       flushMicrotasks();
@@ -322,7 +336,7 @@ describe('GetStartedPageComponent', () => {
     }));
 
     it('does not navigate to verification-completed on terminal status (desktop shows success in place)', fakeAsync(() => {
-      serviceSpy.getApplication.and.returnValue(
+      serviceSpy.pollApplication.and.returnValue(
         of(makeResponse(APPRO_STATUS.AWAITING_BANK_APPROVAL))
       );
 
