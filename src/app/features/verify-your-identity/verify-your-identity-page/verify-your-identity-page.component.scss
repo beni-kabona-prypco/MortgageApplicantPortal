@@ -1,3 +1,75 @@
+@use 'abstracts' as *;
+
 :host {
   display: contents;
+}
+
+// ── Card ──────────────────────────────────────────────────────────────────────
+
+.verify-your-identity__card {
+  width: 100%;
+}
+
+// ── Main content ──────────────────────────────────────────────────────────────
+
+.verify-your-identity__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-6);
+}
+
+.verify-your-identity__disclaimer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.verify-your-identity__disclaimer-icon {
+  flex-shrink: 0;
+}
+
+// ── Error state ───────────────────────────────────────────────────────────────
+
+.verify-your-identity__error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  text-align: center;
+}
+
+// ── Loading skeleton ──────────────────────────────────────────────────────────
+
+.verify-your-identity__skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-6);
+}
+
+.verify-your-identity__skeleton-title {
+  @include shimmer;
+
+  height: 1.5rem;
+  border-radius: var(--radius-sm);
+  width: 60%;
+}
+
+.verify-your-identity__skeleton-body {
+  @include shimmer;
+
+  height: 1rem;
+  border-radius: var(--radius-sm);
+
+  &--short {
+    width: 70%;
+  }
+}
+
+// ── Actions ───────────────────────────────────────────────────────────────────
+
+.verify-your-identity__actions {
+  width: 100%;
 }
