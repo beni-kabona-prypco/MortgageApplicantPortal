@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 
+import { consentRequiredGuard, desktopRedirectGuard } from '@core/guards';
+
 export const routes: Routes = [
   {
     path: '',
@@ -14,14 +16,17 @@ export const routes: Routes = [
       },
       {
         path: 'consent/:applicationId',
+        canActivate: [desktopRedirectGuard],
         loadChildren: () => import('@features/consent').then(m => m.CONSENT_ROUTES),
       },
       {
         path: 'buyer-details/:applicationId',
+        canActivate: [desktopRedirectGuard, consentRequiredGuard],
         loadChildren: () => import('@features/buyer-details').then(m => m.BUYER_DETAILS_ROUTES),
       },
       {
         path: 'verify-your-identity/:applicationId',
+        canActivate: [desktopRedirectGuard],
         loadChildren: () =>
           import('@features/verify-your-identity').then(m => m.VERIFY_YOUR_IDENTITY_ROUTES),
       },
@@ -32,6 +37,7 @@ export const routes: Routes = [
       },
       {
         path: 'kfs/:applicationId',
+        canActivate: [desktopRedirectGuard],
         loadChildren: () => import('@features/kfs').then(m => m.KFS_ROUTES),
       },
     ],
