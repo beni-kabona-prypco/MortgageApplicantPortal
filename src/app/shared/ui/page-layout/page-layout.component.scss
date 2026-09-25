@@ -16,18 +16,9 @@
 
 .page-layout__nav {
   flex-shrink: 0;
-  padding: var(--space-2) var(--space-4);
+  padding: var(--space-3) var(--space-4);
   position: relative;
   z-index: var(--z-sticky);
-
-  &::after {
-    content: '';
-    position: absolute;
-    inset: auto 0 calc(-1 * var(--space-4)) 0;
-    height: var(--space-4);
-    background: linear-gradient(to bottom, var(--color-surface-secondary), transparent);
-    pointer-events: none;
-  }
 }
 
 // ── Content ───────────────────────────────────────────────────────────────────
@@ -48,7 +39,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: var(--space-3) var(--space-5);
+  gap: var(--space-4);
+  padding: 0.875rem 1.75rem; // Figma: py-[14px] px-[28px] — no 28px token
+  background: var(--color-surface);
 }
 
 // ── Desktop ───────────────────────────────────────────────────────────────────
@@ -60,10 +53,6 @@
 
   .page-layout__nav {
     padding: var(--space-5) var(--space-8);
-
-    &::after {
-      display: none;
-    }
   }
 
   .page-layout__content {
@@ -73,10 +62,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
   }
 
   .page-layout__actions {
     padding: var(--space-4);
+    background: transparent;
   }
 }

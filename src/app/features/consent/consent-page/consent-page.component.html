@@ -1,8 +1,205 @@
 <app-page-layout>
   <app-top-nav-buyer
     pageNav
-    brokerName="Broker Name"
-    brokerageName="Brokerage Name"
-    appId="72381902"
+    [brokerName]="brokerName()"
+    [brokerageName]="brokerageName()"
+    [brokerageLogo]="brokerageLogo()"
+    [appId]="shortId() || applicationId()"
   />
+
+  <!-- ── Bureau consent ──────────────────────────────────────────────────────── -->
+  <section class="consent-page__section">
+    <prypco-text element="h2" variant="paragraph-bold-lg" color="var(--color-instamortgage-bg)">
+      Bureau consent
+    </prypco-text>
+
+    <div class="consent-page__card">
+      <div class="consent-page__card-preview">
+        <prypco-text variant="paragraph-regular-xs" color="var(--color-text-muted)">
+          By clicking on the accept button below:
+        </prypco-text>
+        <ol class="consent-page__card-list">
+          <li>
+            <prypco-text
+              element="span"
+              variant="paragraph-regular-xs"
+              color="var(--color-text-muted)"
+            >
+              you authorize Appro to obtain your credit report from the Al Etihad Credit Bureau, and
+              obtain any other source of information...
+            </prypco-text>
+          </li>
+        </ol>
+      </div>
+
+      <div
+        class="consent-page__card-action"
+        role="button"
+        tabindex="0"
+        (click)="isBureauSheetOpen.set(true)"
+        (keydown.enter)="isBureauSheetOpen.set(true)"
+      >
+        <prypco-text
+          element="span"
+          variant="paragraph-bold-sm"
+          align="center"
+          [lineHeight]="'1.2'"
+          color="var(--color-cta-link)"
+        >
+          Read more
+        </prypco-text>
+      </div>
+    </div>
+
+    <prypco-checkbox
+      [checked]="bureauConsent()"
+      label="I have read and understood the Bureau consent"
+      [labelFontSize]="14"
+      [backgroundColor]="'var(--color-surface)'"
+      (checkedChange)="bureauConsent.set($event)"
+    />
+  </section>
+
+  <!-- ── T&C ────────────────────────────────────────────────────────────────── -->
+  <section class="consent-page__section">
+    <prypco-text element="h2" variant="paragraph-bold-lg" color="var(--color-instamortgage-bg)">
+      Terms and conditions and Privacy policy
+    </prypco-text>
+
+    <div class="consent-page__card">
+      <div class="consent-page__card-preview">
+        <prypco-text variant="paragraph-regular-xs" color="var(--color-text-muted)">
+          By clicking on the accept button below:
+        </prypco-text>
+        <ol class="consent-page__card-list">
+          <li>
+            <prypco-text
+              element="span"
+              variant="paragraph-regular-xs"
+              color="var(--color-text-muted)"
+            >
+              you authorize Appro to obtain your credit report from the Al Etihad Credit Bureau, and
+              obtain any other source of information...
+            </prypco-text>
+          </li>
+        </ol>
+      </div>
+
+      <div
+        class="consent-page__card-action"
+        role="button"
+        tabindex="0"
+        (click)="isTncSheetOpen.set(true)"
+        (keydown.enter)="isTncSheetOpen.set(true)"
+      >
+        <prypco-text
+          element="span"
+          variant="paragraph-bold-sm"
+          align="center"
+          [lineHeight]="'1.2'"
+          color="var(--color-cta-link)"
+        >
+          Read more
+        </prypco-text>
+      </div>
+    </div>
+
+    <prypco-checkbox
+      [checked]="tncConsent()"
+      label="I have read the terms and conditions"
+      [labelFontSize]="14"
+      [backgroundColor]="'var(--color-surface)'"
+      (checkedChange)="tncConsent.set($event)"
+    />
+    <prypco-checkbox
+      [checked]="dataAccuracyConsent()"
+      label="I here by declare that the information provided by me on this platform is true and accurate"
+      [labelFontSize]="14"
+      [backgroundColor]="'var(--color-surface)'"
+      (checkedChange)="dataAccuracyConsent.set($event)"
+    />
+  </section>
+
+  <!-- ── Actions ────────────────────────────────────────────────────────────── -->
+  <div pageActions class="consent-page__actions">
+    <div class="consent-page__actions-back">
+      <prypco-button
+        variant="secondary"
+        shape="rounded"
+        size="lg"
+        [fullWidth]="true"
+        (click)="goBack()"
+      >
+        Back
+      </prypco-button>
+    </div>
+    <div class="consent-page__actions-accept">
+      <prypco-button
+        variant="primary"
+        shape="rounded"
+        size="lg"
+        [fullWidth]="true"
+        [disabled]="!canAccept()"
+        [loading]="isSubmitting()"
+        (click)="acceptAndContinue()"
+      >
+        Accept and continue
+      </prypco-button>
+    </div>
+  </div>
 </app-page-layout>
+
+<!-- ── Bureau consent bottom sheet ────────────────────────────────────────── -->
+<app-bottom-sheet
+  title="Bureau consent"
+  [open]="isBureauSheetOpen()"
+  (closeSheet)="isBureauSheetOpen.set(false)"
+>
+  <prypco-text variant="paragraph-regular-sm" color="var(--color-text-muted)">
+    {{ bureauConsentIntro }}
+  </prypco-text>
+  <ol class="consent-page__sheet-list">
+    @for (item of bureauConsentItems; track $index) {
+      <li>
+        <prypco-text element="span" variant="paragraph-regular-sm" color="var(--color-text-muted)">
+          {{ item }}
+        </prypco-text>
+      </li>
+    }
+  </ol>
+</app-bottom-sheet>
+
+<!-- ── T&C bottom sheet ────────────────────────────────────────────────────── -->
+<app-bottom-sheet
+  title="Terms and conditions and Privacy policy"
+  [open]="isTncSheetOpen()"
+  (closeSheet)="isTncSheetOpen.set(false)"
+>
+  @for (section of tncSections; track $index) {
+    @if (section.heading) {
+      <prypco-text variant="paragraph-bold-sm" color="var(--color-text)">
+        {{ section.heading }}
+      </prypco-text>
+    }
+    @for (para of section.paragraphs; track $index) {
+      <prypco-text variant="paragraph-regular-sm" color="var(--color-text-muted)">
+        {{ para }}
+      </prypco-text>
+    }
+    @if (section.items) {
+      <ol class="consent-page__sheet-list">
+        @for (item of section.items; track $index) {
+          <li>
+            <prypco-text
+              element="span"
+              variant="paragraph-regular-sm"
+              color="var(--color-text-muted)"
+            >
+              {{ item }}
+            </prypco-text>
+          </li>
+        }
+      </ol>
+    }
+  }
+</app-bottom-sheet>
