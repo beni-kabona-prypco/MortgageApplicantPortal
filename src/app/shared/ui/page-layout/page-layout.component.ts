@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { TextComponent } from '@prypco/web-ui';
 
 @Component({
@@ -9,4 +9,6 @@ import { TextComponent } from '@prypco/web-ui';
   styleUrl: './page-layout.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PageLayoutComponent {}
+export class PageLayoutComponent {
+  readonly centered = input(false);
+}

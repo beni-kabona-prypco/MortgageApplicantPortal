@@ -26,10 +26,16 @@
 .page-layout__content {
   flex: 1;
   overflow-y: auto;
-  padding-inline: var(--space-4);
-  padding-bottom: var(--space-8);
+  padding: var(--space-4) var(--space-4) var(--space-8);
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
+
+  &--centered {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+  }
 }
 
 // ── Actions ───────────────────────────────────────────────────────────────────
