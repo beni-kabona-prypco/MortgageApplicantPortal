@@ -1,3 +1,83 @@
 :host {
   display: contents;
 }
+
+.consent-page {
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem; // 14px — Figma gap-[14px], no exact token
+    padding: var(--space-4);
+    border-radius: var(--radius-section);
+
+    &:first-of-type {
+      padding-top: var(--space-6);
+    }
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__card-preview {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    padding: 0.875rem var(--space-4); // 14px vertical (Figma py-[14px]), 16px horizontal
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  &__card-list {
+    list-style-type: decimal;
+    padding-inline-start: var(--space-5);
+    margin: 0;
+
+    li {
+      font-size: var(--font-size-xs); // ::marker inherits li font-size; match paragraph-regular-xs
+    }
+  }
+
+  &__card-action {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-top: none;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.875rem var(--space-4); // py-[14px] px-[16px] from Figma
+    cursor: pointer;
+  }
+
+  &__actions {
+    display: flex;
+    gap: var(--space-4);
+    width: 100%;
+  }
+
+  // Back: fixed ~103px; Accept: takes remaining space
+  &__actions-back {
+    flex: 0 0 6.4375rem;
+  }
+
+  &__actions-accept {
+    flex: 1;
+  }
+
+  &__sheet-list {
+    list-style-type: decimal;
+    padding-inline-start: var(--space-5);
+    margin-top: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+
+    li {
+      font-size: var(--font-size-sm); // ::marker inherits li font-size; match paragraph-regular-sm
+    }
+  }
+}
