@@ -1,3 +1,70 @@
 :host {
   display: contents;
 }
+
+// ── Card ──────────────────────────────────────────────────────────────────────
+
+.verification-completed__card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg); // 12px
+  box-shadow: var(--shadow-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 670px;
+
+  @media (width >= 768px) {
+    min-height: 772px;
+    width: 100%;
+  }
+}
+
+// ── Background ────────────────────────────────────────────────────────────────
+
+.verification-completed__bg-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+
+.verification-completed__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// ── Content ───────────────────────────────────────────────────────────────────
+
+.verification-completed__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.875rem; // 14px — Figma gap between content items
+  padding: 1.75rem 0.875rem; // 28px 14px — Figma py/px
+  text-align: center;
+}
+
+.verification-completed__icon {
+  flex-shrink: 0;
+}
+
+.verification-completed__heading {
+  max-width: 17.8125rem; // 285px mobile
+
+  @media (width >= 768px) {
+    max-width: 22.625rem; // 362px desktop
+  }
+}
+
+.verification-completed__body {
+  max-width: 13.5rem; // 216px mobile
+
+  @media (width >= 768px) {
+    max-width: 22.625rem; // 362px desktop
+  }
+}
