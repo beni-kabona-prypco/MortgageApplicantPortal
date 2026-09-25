@@ -20,6 +20,10 @@
   display: flex;
   flex-direction: column;
   animation: sheet-slide-up 0.25s ease-out;
+
+  &--large {
+    max-height: 92vh;
+  }
 }
 
 .bottom-sheet__handle {
@@ -49,6 +53,22 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
+
+  &--no-padding {
+    padding: 0;
+  }
+}
+
+// ── Footer ────────────────────────────────────────────────────────────────────
+
+.bottom-sheet__footer {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: 0.875rem 1.75rem var(--space-5); // Figma: pt-[14px] px-[28px] pb-[24px]
+  border-top: 1px solid var(--color-border-strong);
+  background: var(--color-surface);
 }
 
 @keyframes sheet-slide-up {

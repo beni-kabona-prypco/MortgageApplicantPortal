@@ -1,3 +1,89 @@
+@use 'abstracts' as *;
+
 :host {
   display: contents;
+}
+
+// ── Main content ──────────────────────────────────────────────────────────────
+
+.kfs__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.75rem; // 28px — Figma gap-[28px]; no exact token
+  padding: var(--space-6);
+}
+
+// ── Icon badge ────────────────────────────────────────────────────────────────
+
+.kfs__icon-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.1875rem; // 51px — Figma size-[51px]
+  height: 3.1875rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-mortgage-brand-bg);
+  flex-shrink: 0;
+}
+
+// ── Header ────────────────────────────────────────────────────────────────────
+
+.kfs__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+}
+
+// ── Read KFS button content ───────────────────────────────────────────────────
+
+.kfs__read-btn-content {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+// ── PDF viewer (inside bottom sheet body) ─────────────────────────────────────
+
+.kfs__pdf-viewer {
+  display: block;
+  width: 100%;
+  min-height: 60vh;
+}
+
+// ── PDF loading skeleton ──────────────────────────────────────────────────────
+
+.kfs__pdf-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-bottom: var(--space-4);
+}
+
+.kfs__pdf-skeleton-bar {
+  @include shimmer;
+
+  height: 1rem;
+  border-radius: var(--radius-sm);
+  width: 100%;
+
+  &--short {
+    width: 70%;
+  }
+}
+
+// ── Sheet footer ──────────────────────────────────────────────────────────────
+
+.kfs__sheet-footer {
+  display: contents; // let bottom-sheet__footer be the layout container
+}
+
+// ── Download button content ───────────────────────────────────────────────────
+
+.kfs__download-btn-content {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 }
