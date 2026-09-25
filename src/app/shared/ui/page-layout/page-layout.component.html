@@ -9,7 +9,15 @@
 
   <footer class="page-layout__actions">
     <ng-content select="[pageActions]"></ng-content>
-    <prypco-text variant="paragraph-regular-xs" color="var(--color-text-muted)" align="center">
+    <prypco-text
+      variant="paragraph-regular-xs"
+      [fontSize]="10"
+      [fontWeight]="300"
+      [lineHeight]="'1.2'"
+      [noWrap]="true"
+      color="var(--color-text-muted)"
+      align="center"
+    >
       Powered by InstaMortgage
     </prypco-text>
   </footer>

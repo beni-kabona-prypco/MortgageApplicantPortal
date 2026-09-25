@@ -1,0 +1,23 @@
+@if (open()) {
+  <div class="bottom-sheet__backdrop" aria-hidden="true" (click)="handleClose()"></div>
+
+  <div class="bottom-sheet__panel" role="dialog" aria-modal="true" [attr.aria-label]="title()">
+    <div class="bottom-sheet__handle" aria-hidden="true"></div>
+
+    <div class="bottom-sheet__header">
+      <prypco-text variant="paragraph-bold-md" color="var(--color-text)">{{ title() }}</prypco-text>
+      <prypco-button
+        variant="tertiary"
+        shape="rounded"
+        [iconOnly]="true"
+        leadingIcon="x-close"
+        ariaLabel="Close"
+        (click)="handleClose()"
+      />
+    </div>
+
+    <div class="bottom-sheet__body">
+      <ng-content></ng-content>
+    </div>
+  </div>
+}
