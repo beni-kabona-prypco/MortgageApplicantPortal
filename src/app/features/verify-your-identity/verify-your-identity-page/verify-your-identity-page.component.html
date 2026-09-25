@@ -1,8 +1,81 @@
 <app-page-layout>
   <app-top-nav-buyer
     pageNav
-    brokerName="Broker Name"
-    brokerageName="Brokerage Name"
-    appId="72381902"
+    [brokerName]="brokerName()"
+    [brokerageName]="brokerageName()"
+    [brokerageLogo]="brokerageLogo()"
+    [appId]="shortId() || applicationId()"
+    [loading]="isLoading()"
   />
+
+  @if (isLoading()) {
+    <app-page-card class="verify-your-identity__card">
+      <div class="verify-your-identity__skeleton">
+        <div class="verify-your-identity__skeleton-title"></div>
+        <div class="verify-your-identity__skeleton-body"></div>
+        <div
+          class="verify-your-identity__skeleton-body verify-your-identity__skeleton-body--short"
+        ></div>
+      </div>
+    </app-page-card>
+  } @else if (hasError()) {
+    <app-page-card class="verify-your-identity__card">
+      <div class="verify-your-identity__error">
+        <prypco-text
+          element="h1"
+          variant="paragraph-bold-lg"
+          color="var(--color-text)"
+          align="center"
+        >
+          Verification link unavailable
+        </prypco-text>
+        <prypco-text variant="paragraph-regular-md" color="var(--color-text-muted)" align="center">
+          We couldn't load your verification link. Please try again later.
+        </prypco-text>
+      </div>
+    </app-page-card>
+  } @else {
+    <app-page-card class="verify-your-identity__card">
+      <div class="verify-your-identity__content">
+        <prypco-text element="h1" variant="paragraph-bold-xl" color="var(--color-instamortgage-bg)">
+          Verify your identity
+        </prypco-text>
+        <prypco-text variant="paragraph-regular-md" color="var(--color-text-muted)">
+          To show you the best mortgage offers, we need to verify your Emirates ID and complete a
+          quick face scan.
+        </prypco-text>
+        <div class="verify-your-identity__disclaimer">
+          <img
+            src="/assets/icons/check-circle.svg"
+            alt=""
+            aria-hidden="true"
+            class="verify-your-identity__disclaimer-icon"
+            width="16"
+            height="16"
+          />
+          <prypco-text
+            element="span"
+            variant="paragraph-regular-sm"
+            color="var(--color-text-muted)"
+          >
+            Your data is 100% safe and private.
+          </prypco-text>
+        </div>
+      </div>
+    </app-page-card>
+  }
+
+  <div pageActions class="verify-your-identity__actions">
+    <prypco-button
+      variant="primary"
+      shape="rounded"
+      size="lg"
+      [fullWidth]="true"
+      [loading]="isRedirecting()"
+      [disabled]="isLoading() || hasError()"
+      (click)="startVerification()"
+    >
+      Start Verification
+    </prypco-button>
+  </div>
 </app-page-layout>

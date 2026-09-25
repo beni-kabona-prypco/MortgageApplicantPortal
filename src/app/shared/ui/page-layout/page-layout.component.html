@@ -3,7 +3,7 @@
     <ng-content select="[pageNav]"></ng-content>
   </header>
 
-  <main class="page-layout__content">
+  <main class="page-layout__content" [class.page-layout__content--centered]="centered()">
     <ng-content></ng-content>
   </main>
 
