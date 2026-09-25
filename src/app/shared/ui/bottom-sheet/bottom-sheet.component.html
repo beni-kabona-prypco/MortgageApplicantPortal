@@ -1,7 +1,13 @@
 @if (open()) {
   <div class="bottom-sheet__backdrop" aria-hidden="true" (click)="handleClose()"></div>
 
-  <div class="bottom-sheet__panel" role="dialog" aria-modal="true" [attr.aria-label]="title()">
+  <div
+    class="bottom-sheet__panel"
+    [class.bottom-sheet__panel--large]="size() === 'large'"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-label]="title()"
+  >
     <div class="bottom-sheet__handle" aria-hidden="true"></div>
 
     <div class="bottom-sheet__header">
@@ -16,8 +22,14 @@
       />
     </div>
 
-    <div class="bottom-sheet__body">
+    <div class="bottom-sheet__body" [class.bottom-sheet__body--no-padding]="noPadding()">
       <ng-content></ng-content>
     </div>
+
+    @if (hasFooter()) {
+      <div class="bottom-sheet__footer">
+        <ng-content select="[sheetFooter]"></ng-content>
+      </div>
+    }
   </div>
 }
