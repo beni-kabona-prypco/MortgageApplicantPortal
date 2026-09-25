@@ -67,6 +67,48 @@
   border-radius: var(--radius-md);
 }
 
+// ── Skeleton ──────────────────────────────────────────────────────────────────
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.top-nav__skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-secondary) 25%,
+    var(--active-surface) 50%,
+    var(--color-surface-secondary) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.top-nav__skeleton-avatar {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-pill);
+}
+
+.top-nav__skeleton-name {
+  width: 108px;
+  height: 16px;
+  border-radius: var(--radius-sm);
+}
+
+.top-nav__skeleton-badge {
+  width: 80px;
+  height: 28px;
+  border-radius: var(--radius-md);
+}
+
 // ── Desktop ───────────────────────────────────────────────────────────────────
 
 @media (width >= 768px) {
@@ -80,5 +122,9 @@
 
   .top-nav__names-desktop {
     display: flex;
+  }
+
+  .top-nav__skeleton-name {
+    width: 160px;
   }
 }

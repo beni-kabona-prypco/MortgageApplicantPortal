@@ -37,9 +37,11 @@ describe('ConsentPageComponent', () => {
   beforeEach(async () => {
     serviceSpy = jasmine.createSpyObj<ConsentService>('ConsentService', [
       'getApplication',
+      'getApplicationFresh',
       'submitConsent',
     ]);
     serviceSpy.getApplication.and.returnValue(of(makeAppResponse()));
+    serviceSpy.getApplicationFresh.and.returnValue(of(makeAppResponse()));
     serviceSpy.submitConsent.and.returnValue(
       of({ success: true, statusCode: 200, errorDetails: null })
     );
@@ -159,18 +161,19 @@ describe('ConsentPageComponent', () => {
 
     it('calls submitConsent with externalId and all consents true', () => {
       component['acceptAndContinue']();
+      const consentItem = { accepted: true, timestamp: jasmine.any(Number) };
       expect(serviceSpy.submitConsent).toHaveBeenCalledOnceWith({
         externalId: APP_ID,
-        bureau: true,
-        tnc: true,
-        dataAccuracy: true,
+        bureau: consentItem,
+        tnc: consentItem,
+        dataAccuracy: consentItem,
+        request: consentItem,
       });
     });
 
-    it('fetches application after submit to resolve eKYC URL', () => {
-      serviceSpy.getApplication.calls.reset();
+    it('fetches application fresh after submit to resolve eKYC URL', () => {
       component['acceptAndContinue']();
-      expect(serviceSpy.getApplication).toHaveBeenCalledWith(APP_ID);
+      expect(serviceSpy.getApplicationFresh).toHaveBeenCalledWith(APP_ID);
     });
 
     it('fires Amplitude User_accepted_AECB event on success', () => {
@@ -186,7 +189,7 @@ describe('ConsentPageComponent', () => {
     });
 
     it('navigates to buyer-details when eKYC URL is empty (best-effort fallback)', () => {
-      serviceSpy.getApplication.and.returnValue(of(makeAppResponse('')));
+      serviceSpy.getApplicationFresh.and.returnValue(of(makeAppResponse('')));
       component['acceptAndContinue']();
       expect(routerSpy.navigate).toHaveBeenCalledWith(['/buyer/buyer-details', APP_ID]);
     });
@@ -202,7 +205,7 @@ describe('ConsentPageComponent', () => {
           },
         },
       };
-      serviceSpy.getApplication.and.returnValue(of(responseWithoutUrl));
+      serviceSpy.getApplicationFresh.and.returnValue(of(responseWithoutUrl));
       component['acceptAndContinue']();
       expect(routerSpy.navigate).toHaveBeenCalledWith(['/buyer/buyer-details', APP_ID]);
     });
@@ -241,6 +244,10 @@ describe('ConsentPageComponent', () => {
 
     it('populates appData on success', () => {
       expect(component['appData']()).toEqual(makeAppResponse().data as never);
+    });
+
+    it('sets isLoading to false after data loads', () => {
+      expect(component['isLoading']()).toBeFalse();
     });
 
     it('navigates to not-found when getApplication returns success: false', async () => {

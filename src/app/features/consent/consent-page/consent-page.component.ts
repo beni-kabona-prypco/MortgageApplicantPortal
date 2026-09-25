@@ -13,6 +13,7 @@ import { ButtonComponent, CheckboxComponent, TextComponent } from '@prypco/web-u
 import { map, switchMap, take } from 'rxjs/operators';
 
 import { AMPLITUDE_SDK } from '@core/amplitude';
+import { ConsentStateService } from '@core/consent';
 import { BottomSheetComponent } from '@shared/ui/bottom-sheet';
 import { PageLayoutComponent } from '@shared/ui/page-layout';
 import { TopNavBuyerComponent } from '@shared/ui/top-nav-buyer';
@@ -44,6 +45,7 @@ export class ConsentPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly service = inject(ConsentService);
+  private readonly consentState = inject(ConsentStateService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly amplitude = inject(AMPLITUDE_SDK);
 
@@ -54,6 +56,7 @@ export class ConsentPageComponent {
 
   // ── API state ──────────────────────────────────────────────────────────────
 
+  protected readonly isLoading = signal(true);
   protected readonly appData = signal<ConsentApplicationRecord | null>(null);
 
   // ── Derived nav data ───────────────────────────────────────────────────────
@@ -109,6 +112,7 @@ export class ConsentPageComponent {
           next: res => {
             if (res.success && res.data) {
               this.appData.set(res.data);
+              this.isLoading.set(false);
             } else {
               this.router.navigate(['/not-found'], { replaceUrl: true });
             }
@@ -131,17 +135,26 @@ export class ConsentPageComponent {
 
     this.isSubmitting.set(true);
     const appId = this.applicationId();
+    const timestamp = Math.floor(Date.now() / 1000);
+    const consent = { accepted: true, timestamp };
 
     this.service
-      .submitConsent({ externalId: appId, bureau: true, tnc: true, dataAccuracy: true })
+      .submitConsent({
+        externalId: appId,
+        bureau: consent,
+        tnc: consent,
+        dataAccuracy: consent,
+        request: consent,
+      })
       .pipe(
-        switchMap(() => this.service.getApplication(appId)),
+        switchMap(() => this.service.getApplicationFresh(appId)),
         take(1),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe({
         next: res => {
           this.amplitude.track(CONSENT_EVENTS.ACCEPTED, { applicationId: appId });
+          this.consentState.approve(appId);
 
           const eKycUrl = res.data?.applicationData.links?.eKyc?.redirectUrl;
 

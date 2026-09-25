@@ -1,13 +1,18 @@
-import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
-import { GetApplicationResponse } from './get-started.model';
+import { ApplicationCacheService } from '@core/application';
+
+import type { GetApplicationResponse } from './get-started.model';
 
 @Injectable({ providedIn: 'root' })
 export class GetStartedService {
-  private readonly http = inject(HttpClient);
+  private readonly cache = inject(ApplicationCacheService);
 
   getApplication(applicationId: string) {
-    return this.http.get<GetApplicationResponse>(`/Buyer/Application/${applicationId}`);
+    return this.cache.get<GetApplicationResponse>(applicationId);
+  }
+
+  pollApplication(applicationId: string) {
+    return this.cache.fetch<GetApplicationResponse>(applicationId);
   }
 }
