@@ -12,6 +12,8 @@ export const APPRO_STATUS = {
   EXPIRED: 'Expired',
   OFFERS_SELECTED: 'Offer selected',
   KFS_PENDING: 'KFS Pending',
+  NO_OFFERS_AVAILABLE: 'No offers available',
+  CLIENT_NOT_ELIGIBLE: 'Client not eligible',
 } as const;
 
 export type ApproStatus = (typeof APPRO_STATUS)[keyof typeof APPRO_STATUS];
