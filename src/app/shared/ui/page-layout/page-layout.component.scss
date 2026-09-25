@@ -16,7 +16,7 @@
 
 .page-layout__nav {
   flex-shrink: 0;
-  padding: var(--space-3) var(--space-4);
+  padding: var(--space-3) var(--space-4) 0;
   position: relative;
   z-index: var(--z-sticky);
 }
@@ -27,7 +27,7 @@
   flex: 1;
   overflow-y: auto;
   padding-inline: var(--space-4);
-  padding-bottom: var(--space-5);
+  padding-bottom: var(--space-8);
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
 }
@@ -52,7 +52,7 @@
   }
 
   .page-layout__nav {
-    padding: var(--space-5) var(--space-8);
+    padding: var(--space-5) var(--space-8) 0;
   }
 
   .page-layout__content {

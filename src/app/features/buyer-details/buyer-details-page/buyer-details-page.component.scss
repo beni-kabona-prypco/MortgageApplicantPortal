@@ -1,3 +1,117 @@
 :host {
   display: contents;
 }
+
+// White surface for DS inputs — page canvas is var(--color-surface-secondary) #f5f5f5
+// Label background transparent so it blends with the page rather than showing a gradient box
+:host ::ng-deep prypco-input {
+  --prypco-color-inp-label-bg: var(--color-surface);
+
+  .prypco-input__field-wrap {
+    background-color: var(--color-surface);
+  }
+}
+
+:host ::ng-deep prypco-dropdown {
+  --prypco-color-inp-label-bg: var(--color-surface);
+
+  .prypco-dropdown__trigger-input .prypco-input__field-wrap {
+    background-color: var(--color-surface);
+  }
+}
+
+.buyer-details-page {
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem; // 14px — Figma buyer-details field gap; no matching token
+    padding-inline: 0.875rem; // 14px — Figma canvas margin
+
+    &:first-of-type {
+      padding-top: var(--space-6); // 32px — matches consent page top gap below nav
+    }
+
+    &--address {
+      gap: 1.125rem; // 18px — Figma address-section field gap; no matching token
+    }
+  }
+
+  &__section-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2); // 8px between h2 and description
+  }
+
+  &__divider {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin-block: var(--space-5); // 24px above and below the section separator
+    margin-inline: 0.875rem; // align with section padding-inline
+  }
+
+  &__join-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem; // 14px — same as section field gap
+  }
+
+  &__join-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    white-space: nowrap;
+  }
+
+  &__join-required {
+    font-style: italic;
+  }
+
+  &__join-fields {
+    display: flex;
+    gap: 0.875rem; // 14px between Month and Year dropdowns
+
+    > * {
+      flex: 1;
+      min-width: 0; // prevent flex children from overflowing the row
+    }
+  }
+
+  &__income-toggle {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2); // 8px between question and buttons
+    padding-block: var(--space-2); // 8px — separates toggle from surrounding sections
+  }
+
+  &__income-buttons {
+    display: flex;
+    gap: var(--space-2); // 8px between No and Yes buttons
+  }
+
+  &__income-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem; // 14px between income field items
+  }
+
+  &__income-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4); // 16px between label and input within each income field
+  }
+
+  &__actions {
+    display: flex;
+    gap: var(--space-4);
+    inline-size: 100%;
+  }
+
+  &__actions-back {
+    flex: 0 0 6.4375rem; // 103px — Figma back button width
+  }
+
+  &__actions-continue {
+    flex: 1;
+  }
+}

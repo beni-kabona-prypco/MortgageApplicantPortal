@@ -1,8 +1,320 @@
 <app-page-layout>
   <app-top-nav-buyer
     pageNav
-    brokerName="Broker Name"
-    brokerageName="Brokerage Name"
-    appId="72381902"
+    [brokerName]="brokerName()"
+    [brokerageName]="brokerageName()"
+    [brokerageLogo]="brokerageLogo()"
+    [appId]="shortId() || applicationId()"
+    [loading]="isLoading()"
   />
+
+  @if (!isLoading()) {
+    <!-- ── About you ─────────────────────────────────────────────────────────── -->
+    <section class="buyer-details-page__section">
+      <div class="buyer-details-page__section-header">
+        <prypco-text element="h2" variant="paragraph-bold-lg" color="var(--color-instamortgage-bg)">
+          About you
+        </prypco-text>
+        <prypco-text element="p" variant="paragraph-regular-sm" color="var(--color-text-muted)">
+          As per bank's regulation, you need to declare your monthly income and, if you have any,
+          your additional income and monthly expenditure.
+        </prypco-text>
+      </div>
+
+      <prypco-input
+        label="Personal email"
+        type="email"
+        [id]="'bd-email'"
+        [required]="true"
+        requiredIndicator="text"
+        (input)="onNativeInput('email', $event)"
+      />
+
+      <prypco-input
+        label="Business email"
+        type="email"
+        [id]="'bd-business-email'"
+        [required]="true"
+        requiredIndicator="text"
+        (input)="onNativeInput('businessEmail', $event)"
+      />
+
+      <prypco-input
+        label="Monthly salary"
+        type="number"
+        [prefix]="'AED'"
+        [id]="'bd-salary'"
+        [required]="true"
+        requiredIndicator="text"
+        (input)="onNativeInput('salary', $event)"
+      />
+
+      <prypco-dropdown
+        label="Your company's name"
+        [items]="companyOptions()"
+        [value]="fields().companyName || undefined"
+        [searchable]="true"
+        [required]="true"
+        requiredIndicator="text"
+        [noResultsMessage]="isCompanySearching() ? 'Searching...' : 'Type to search companies'"
+        (valueChange)="patch('companyName', $any($event))"
+        (input)="onCompanySearch($event)"
+      />
+
+      <prypco-dropdown
+        label="Working industry"
+        [items]="industryOptions()"
+        [value]="fields().workingIndustry || undefined"
+        [searchable]="true"
+        [required]="true"
+        requiredIndicator="text"
+        (valueChange)="patch('workingIndustry', $any($event))"
+      />
+
+      <div class="buyer-details-page__join-group">
+        <div class="buyer-details-page__join-header">
+          <prypco-text
+            element="span"
+            variant="paragraph-medium-sm"
+            color="var(--color-instamortgage-bg)"
+          >
+            When did you join this company?
+          </prypco-text>
+          <prypco-text
+            element="span"
+            variant="paragraph-regular-sm"
+            color="var(--color-text-muted)"
+            class="buyer-details-page__join-required"
+          >
+            (Required)
+          </prypco-text>
+        </div>
+
+        <div class="buyer-details-page__join-fields">
+          <prypco-dropdown
+            label="Month"
+            [items]="monthOptions"
+            [value]="fields().joiningMonth || undefined"
+            [searchable]="false"
+            (valueChange)="patch('joiningMonth', $any($event))"
+          />
+          <prypco-dropdown
+            label="Year"
+            [items]="yearOptions"
+            [value]="fields().joiningYear || undefined"
+            [searchable]="true"
+            (valueChange)="patch('joiningYear', $any($event))"
+          />
+        </div>
+      </div>
+    </section>
+
+    <hr class="buyer-details-page__divider" />
+
+    <!-- ── Your address ──────────────────────────────────────────────────────── -->
+    <section class="buyer-details-page__section buyer-details-page__section--address">
+      <prypco-text element="h2" variant="paragraph-bold-lg" color="var(--color-instamortgage-bg)">
+        Your address
+      </prypco-text>
+
+      <prypco-input
+        label="Your home address"
+        [id]="'bd-home-address'"
+        (input)="onNativeInput('homeAddress', $event)"
+      />
+
+      <prypco-input
+        label="Villa or apartment number"
+        [id]="'bd-villa'"
+        (input)="onNativeInput('villaOrApartmentNumber', $event)"
+      />
+
+      <prypco-input
+        label="Building or community name"
+        [id]="'bd-building'"
+        (input)="onNativeInput('buildingOrCommunity', $event)"
+      />
+
+      <prypco-input
+        label="Area"
+        [id]="'bd-area'"
+        [required]="true"
+        requiredIndicator="text"
+        (input)="onNativeInput('area', $event)"
+      />
+
+      <prypco-dropdown
+        label="Select Emirate"
+        [items]="emirateOptions()"
+        [value]="fields().emirate || undefined"
+        (valueChange)="patch('emirate', $any($event))"
+      />
+    </section>
+
+    <hr class="buyer-details-page__divider" />
+
+    <!-- ── Additional income/expenditure ─────────────────────────────────────── -->
+    <section class="buyer-details-page__section">
+      <div class="buyer-details-page__income-toggle">
+        <prypco-text element="p" variant="paragraph-medium-sm" color="var(--color-text)">
+          Any additional income or monthly expenditure you want to disclose?
+        </prypco-text>
+        <div class="buyer-details-page__income-buttons">
+          <prypco-button
+            variant="secondary"
+            shape="rounded"
+            size="md"
+            [customBackground]="
+              hasAdditionalIncome() ? 'var(--color-surface)' : 'var(--color-bg-inverse)'
+            "
+            [customBorderColor]="
+              hasAdditionalIncome() ? 'var(--color-border)' : 'var(--color-bg-inverse)'
+            "
+            [customColor]="hasAdditionalIncome() ? 'var(--color-text-muted)' : '#fff'"
+            (click)="hasAdditionalIncome.set(false)"
+          >
+            No
+          </prypco-button>
+          <prypco-button
+            variant="secondary"
+            shape="rounded"
+            size="md"
+            [customBackground]="
+              hasAdditionalIncome() ? 'var(--color-bg-inverse)' : 'var(--color-surface)'
+            "
+            [customBorderColor]="
+              hasAdditionalIncome() ? 'var(--color-bg-inverse)' : 'var(--color-border)'
+            "
+            [customColor]="hasAdditionalIncome() ? '#fff' : 'var(--color-text-muted)'"
+            (click)="hasAdditionalIncome.set(true)"
+          >
+            Yes
+          </prypco-button>
+        </div>
+      </div>
+
+      @if (hasAdditionalIncome()) {
+        <div class="buyer-details-page__income-fields">
+          <div class="buyer-details-page__income-field">
+            <prypco-text
+              element="p"
+              variant="paragraph-medium-sm"
+              color="var(--color-instamortgage-bg)"
+            >
+              Annual rental income
+            </prypco-text>
+            <prypco-input
+              label="Amount"
+              type="number"
+              [prefix]="'AED'"
+              (input)="onNativeInput('annualRentalIncome', $event)"
+            />
+          </div>
+          <div class="buyer-details-page__income-field">
+            <prypco-text
+              element="p"
+              variant="paragraph-medium-sm"
+              color="var(--color-instamortgage-bg)"
+            >
+              Annual bonus
+            </prypco-text>
+            <prypco-input
+              label="Amount"
+              type="number"
+              [prefix]="'AED'"
+              (input)="onNativeInput('annualBonus', $event)"
+            />
+          </div>
+          <div class="buyer-details-page__income-field">
+            <prypco-text
+              element="p"
+              variant="paragraph-medium-sm"
+              color="var(--color-instamortgage-bg)"
+            >
+              Annual commission
+            </prypco-text>
+            <prypco-input
+              label="Amount"
+              type="number"
+              [prefix]="'AED'"
+              (input)="onNativeInput('annualCommission', $event)"
+            />
+          </div>
+          <div class="buyer-details-page__income-field">
+            <prypco-text
+              element="p"
+              variant="paragraph-medium-sm"
+              color="var(--color-instamortgage-bg)"
+            >
+              Housing rental allowance
+            </prypco-text>
+            <prypco-input
+              label="Amount"
+              type="number"
+              [prefix]="'AED'"
+              (input)="onNativeInput('housingRentalAllowance', $event)"
+            />
+          </div>
+          <div class="buyer-details-page__income-field">
+            <prypco-text
+              element="p"
+              variant="paragraph-medium-sm"
+              color="var(--color-instamortgage-bg)"
+            >
+              Monthly lifestyle expense
+            </prypco-text>
+            <prypco-input
+              label="Amount"
+              type="number"
+              [prefix]="'AED'"
+              (input)="onNativeInput('lifestyleExpenses', $event)"
+            />
+          </div>
+          <div class="buyer-details-page__income-field">
+            <prypco-text
+              element="p"
+              variant="paragraph-medium-sm"
+              color="var(--color-instamortgage-bg)"
+            >
+              Monthly non-banking borrowing
+            </prypco-text>
+            <prypco-input
+              label="Amount"
+              type="number"
+              [prefix]="'AED'"
+              (input)="onNativeInput('nonBankingBorrowing', $event)"
+            />
+          </div>
+        </div>
+      }
+    </section>
+  }
+
+  <!-- ── Actions ────────────────────────────────────────────────────────────── -->
+  <div pageActions class="buyer-details-page__actions">
+    <div class="buyer-details-page__actions-back">
+      <prypco-button
+        variant="secondary"
+        shape="rounded"
+        size="lg"
+        [fullWidth]="true"
+        (click)="goBack()"
+      >
+        Back
+      </prypco-button>
+    </div>
+    <div class="buyer-details-page__actions-continue">
+      <prypco-button
+        variant="primary"
+        shape="rounded"
+        size="lg"
+        [fullWidth]="true"
+        [disabled]="!canSubmit()"
+        [loading]="isSubmitting()"
+        (click)="submit()"
+      >
+        Submit
+      </prypco-button>
+    </div>
+  </div>
 </app-page-layout>
