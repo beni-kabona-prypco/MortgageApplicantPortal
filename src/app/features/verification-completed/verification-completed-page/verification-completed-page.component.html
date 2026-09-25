@@ -1,8 +1,53 @@
 <app-page-layout>
   <app-top-nav-buyer
     pageNav
-    brokerName="Broker Name"
-    brokerageName="Brokerage Name"
-    appId="72381902"
+    [brokerName]="brokerName()"
+    [brokerageName]="brokerageName()"
+    [brokerageLogo]="brokerageLogo()"
+    [appId]="shortId() || applicationId()"
+    [loading]="isLoading()"
   />
+
+  <div class="verification-completed__card">
+    <picture class="verification-completed__bg-wrap">
+      <source media="(min-width: 768px)" srcset="/assets/desktop-background.svg" />
+      <img
+        src="/assets/mobile-background.svg"
+        alt=""
+        aria-hidden="true"
+        class="verification-completed__bg"
+      />
+    </picture>
+
+    <div class="verification-completed__content">
+      <img
+        src="/assets/icons/check-circle-success.svg"
+        alt=""
+        aria-hidden="true"
+        class="verification-completed__icon"
+        width="60"
+        height="61"
+      />
+
+      <prypco-text
+        variant="heading-bold-md"
+        [fontSize]="isDesktop() ? 32 : 23"
+        color="white"
+        align="center"
+        class="verification-completed__heading"
+      >
+        {{ headingText() }}
+      </prypco-text>
+
+      <prypco-text
+        variant="paragraph-regular-lg"
+        [fontSize]="isDesktop() ? 18 : 16"
+        color="white"
+        align="center"
+        class="verification-completed__body"
+      >
+        {{ brokerName() }} will be in touch with you now to continue your mortgage journey.
+      </prypco-text>
+    </div>
+  </div>
 </app-page-layout>
