@@ -196,5 +196,39 @@ describe('VerificationCompletedPageComponent', () => {
       TestBed.createComponent(VerificationCompletedPageComponent).detectChanges();
       expect(amplitudeSpy.track).not.toHaveBeenCalled();
     });
+
+    it('fires Thankyou_Page_after_KFS_acceptance for Offer selected status', () => {
+      serviceSpy.getApplication.and.returnValue(of(makeResponse('Offer selected')));
+      const freshFixture = TestBed.createComponent(VerificationCompletedPageComponent);
+      freshFixture.detectChanges();
+      expect(amplitudeSpy.track).toHaveBeenCalledWith(VERIFICATION_COMPLETED_EVENTS.THANKYOU_PAGE, {
+        applicationId: APP_ID,
+      });
+    });
+
+    it('fires Thankyou_Page_after_KFS_acceptance for Awaiting Customer Signature status', () => {
+      serviceSpy.getApplication.and.returnValue(of(makeResponse('Awaiting Customer Signature')));
+      const freshFixture = TestBed.createComponent(VerificationCompletedPageComponent);
+      freshFixture.detectChanges();
+      expect(amplitudeSpy.track).toHaveBeenCalledWith(VERIFICATION_COMPLETED_EVENTS.THANKYOU_PAGE, {
+        applicationId: APP_ID,
+      });
+    });
+
+    it('fires Thankyou_Page_after_KFS_acceptance for AIP Letter Ready status', () => {
+      serviceSpy.getApplication.and.returnValue(of(makeResponse('AIP Letter Ready')));
+      const freshFixture = TestBed.createComponent(VerificationCompletedPageComponent);
+      freshFixture.detectChanges();
+      expect(amplitudeSpy.track).toHaveBeenCalledWith(VERIFICATION_COMPLETED_EVENTS.THANKYOU_PAGE, {
+        applicationId: APP_ID,
+      });
+    });
+
+    it('does not fire any event for unrecognised status', () => {
+      amplitudeSpy.track.calls.reset();
+      serviceSpy.getApplication.and.returnValue(of(makeResponse('Awaiting Bank Approval')));
+      TestBed.createComponent(VerificationCompletedPageComponent).detectChanges();
+      expect(amplitudeSpy.track).not.toHaveBeenCalled();
+    });
   });
 });
