@@ -16,7 +16,7 @@ export class ApplicationCacheService {
       );
     }
 
-    return this.cache.get(applicationId)! as Observable<T>;
+    return this.cache.get(applicationId) as Observable<T>;
   }
 
   invalidate(applicationId: string): void {

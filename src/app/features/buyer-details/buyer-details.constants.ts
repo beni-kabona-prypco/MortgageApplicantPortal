@@ -1,5 +1,7 @@
 import type { DropdownItem } from '@prypco/web-ui';
 
+import type { BuyerDetailsFormFields } from './buyer-details.model';
+
 export const MONTHS: readonly DropdownItem[] = [
   { value: '1', label: 'January' },
   { value: '2', label: 'February' },
@@ -15,17 +17,28 @@ export const MONTHS: readonly DropdownItem[] = [
   { value: '12', label: 'December' },
 ] as const;
 
-export function buildYearOptions(fromYear = 1970): readonly DropdownItem[] {
-  const currentYear = new Date().getFullYear();
-  const years: DropdownItem[] = [];
-
-  for (let y = currentYear; y >= fromYear; y--) {
-    years.push({ value: String(y), label: String(y) });
-  }
-
-  return years;
-}
-
 export const BUYER_DETAILS_EVENTS = {
   FORM_SUBMITTED: 'User_Submitted_details',
 } as const;
+
+export const EMPTY_FORM: BuyerDetailsFormFields = {
+  email: '',
+  businessEmail: '',
+  salary: '',
+  companyName: '',
+  workingIndustry: '',
+  joiningMonth: '',
+  joiningYear: '',
+  homeAddress: '',
+  villaOrApartmentNumber: '',
+  buildingOrCommunity: '',
+  area: '',
+  emirate: '',
+  annualRentalIncome: '',
+  annualBonus: '',
+  annualCommission: '',
+  housingRentalAllowance: '',
+  annualVariableAllowance: '',
+  lifestyleExpenses: '',
+  nonBankingBorrowing: '',
+};

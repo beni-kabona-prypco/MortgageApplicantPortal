@@ -14,7 +14,7 @@ import { AMPLITUDE_SDK } from '@core/amplitude';
 import type { AmplitudeSdk } from '@core/amplitude';
 import { ViewportService } from '@core/viewport';
 
-import { APPRO_STATUS } from '../appro-status.constants';
+import { APPRO_STATUS } from '@core/application';
 import { GET_STARTED_EVENTS, POLL_INTERVAL_MS } from '../get-started.constants';
 import type { GetApplicationResponse } from '../get-started.model';
 import { GetStartedService } from '../get-started.service';

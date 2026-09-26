@@ -16,6 +16,7 @@ import { ViewportService } from '@core/viewport';
 import { PageLayoutComponent } from '@shared/ui/page-layout';
 import { TopNavBuyerComponent } from '@shared/ui/top-nav-buyer';
 
+import { APPRO_STATUS } from '@core/application';
 import {
   INELIGIBLE_STATUSES,
   KFS_POST_STATUSES,
@@ -94,7 +95,7 @@ export class VerificationCompletedPageComponent {
 
             const status = res.data.applicationData.status;
 
-            if (status === 'In progress') {
+            if (status === APPRO_STATUS.IN_PROGRESS) {
               this.amplitude.track(VERIFICATION_COMPLETED_EVENTS.VERIFICATION_COMPLETED, {
                 applicationId: res.data.applicationData.id,
               });

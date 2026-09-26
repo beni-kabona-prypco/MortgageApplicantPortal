@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ButtonComponent, TextComponent } from '@prypco/web-ui';
 
 import { TopNavBuyerComponent } from '@shared/ui/top-nav-buyer';
 
 @Component({
   selector: 'app-get-started-mobile',
-  imports: [TopNavBuyerComponent],
+  imports: [TopNavBuyerComponent, TextComponent, ButtonComponent],
   templateUrl: './get-started-mobile.component.html',
   styleUrl: './get-started-mobile.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -20,31 +20,10 @@ import { RumService } from '@core/rum';
 import { PageLayoutComponent } from '@shared/ui/page-layout';
 import { TopNavBuyerComponent } from '@shared/ui/top-nav-buyer';
 
-import { BUYER_DETAILS_EVENTS, buildYearOptions, MONTHS } from '../buyer-details.constants';
+import { BUYER_DETAILS_EVENTS, EMPTY_FORM, MONTHS } from '../buyer-details.constants';
+import { buildYearOptions } from '../buyer-details.utils';
 import type { BuyerApplicationData, BuyerDetailsFormFields } from '../buyer-details.model';
 import { BuyerDetailsService } from '../buyer-details.service';
-
-const EMPTY_FORM: BuyerDetailsFormFields = {
-  email: '',
-  businessEmail: '',
-  salary: '',
-  companyName: '',
-  workingIndustry: '',
-  joiningMonth: '',
-  joiningYear: '',
-  homeAddress: '',
-  villaOrApartmentNumber: '',
-  buildingOrCommunity: '',
-  area: '',
-  emirate: '',
-  annualRentalIncome: '',
-  annualBonus: '',
-  annualCommission: '',
-  housingRentalAllowance: '',
-  annualVariableAllowance: '',
-  lifestyleExpenses: '',
-  nonBankingBorrowing: '',
-};
 
 @Component({
   selector: 'app-buyer-details-page',
@@ -372,6 +351,4 @@ export class BuyerDetailsPageComponent {
   private parseNumber(value: string): number {
     return parseFloat(value.replace(/,/g, '')) || 0;
   }
-
-  protected readonly BUYER_DETAILS_EVENTS = BUYER_DETAILS_EVENTS;
 }

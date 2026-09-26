@@ -343,7 +343,7 @@ describe('KfsPageComponent', () => {
       tick();
 
       const link = appendSpy.calls.mostRecent().args[0] as HTMLAnchorElement;
-      expect(link.download).toBe('FIRST_KFS.pdf');
+      expect(link.download).toMatch(/^FIRST_KFS_\d{8}\.pdf$/);
     }));
   });
 });
