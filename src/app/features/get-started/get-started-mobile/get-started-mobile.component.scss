@@ -8,7 +8,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
-  background: var(--color-surface-secondary); // #f5f5f5
+  background: var(--color-surface-secondary);
 }
 
 // ── Sticky header ─────────────────────────────────────────────────────────────
@@ -19,9 +19,10 @@
   z-index: 3;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  padding: 14px;
-  // Fades to transparent so scrolling content peeks through below the nav
+  gap: 14px; // midpoint between --space-3 (12px) and --space-4 (16px) — no token
+  padding: 14px; // same reasoning
+  // Fades to transparent so scrolling content peeks through below the nav.
+  // rgba() avoids the grey smear that `transparent` (= rgba(0,0,0,0)) causes in gradients.
   background: linear-gradient(
     to bottom,
     var(--color-surface-secondary) 50%,
@@ -35,7 +36,7 @@
   flex: 1 0 0;
   display: flex;
   flex-direction: column;
-  padding-inline: 14px;
+  padding-inline: 14px; // midpoint between --space-3 (12px) and --space-4 (16px) — no token
 }
 
 // Section adds breathing room around the card content
@@ -43,8 +44,8 @@
   display: flex;
   flex: 1 0 0;
   flex-direction: column;
-  gap: 14px;
-  padding: 32px 14px 24px;
+  gap: 14px; // midpoint between --space-3 (12px) and --space-4 (16px) — no token
+  padding: var(--space-6) 14px var(--space-5); // 14px: no token (see above)
 }
 
 // ── Greeting ──────────────────────────────────────────────────────────────────
@@ -52,23 +53,16 @@
 .mobile__greeting {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  color: var(--color-instamortgage-bg); // #002724
+  gap: var(--space-2);
+  color: var(--color-instamortgage-bg);
 }
 
 .mobile__hello {
   margin: 0;
-  font-size: 22px;
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: 0.25px;
 }
 
 .mobile__subtitle {
   margin: 0;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
 }
 
 // ── White card ────────────────────────────────────────────────────────────────
@@ -76,25 +70,25 @@
 .mobile__card {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  padding: 14px;
-  background: var(--color-surface); // white
-  border-radius: var(--radius-lg); // 12px
-  box-shadow: 4px 4px 10px rgba(10, 10, 28, 0.02);
+  gap: var(--space-5);
+  padding: 14px; // midpoint between --space-3 (12px) and --space-4 (16px) — no token
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
 }
 
 // Hero image area — fixed-height clipping box, image fills without distortion
 .mobile__hero {
-  height: 183px;
-  background: #f3f6f5;
-  border-radius: 6px;
+  height: 183px; // one-off illustration height, not a spacing-scale value
+  background: var(--color-emirates-id-hero-bg);
+  border-radius: 6px; // midpoint between --radius-sm (4px) and --radius-md (8px) — no token
   overflow: hidden;
 }
 
 .mobile__hero-img {
   display: block;
   width: 100%;
-  height: 183px;
+  height: 183px; // matches container — one-off illustration height
   object-fit: cover;
   object-position: center;
   pointer-events: none;
@@ -104,28 +98,22 @@
 .mobile__content {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 0 14px 14px;
+  gap: var(--space-3);
+  padding: 0 14px 14px; // 14px: no token (see above)
 }
 
 .mobile__how-title {
   margin: 0;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 20px;
-  color: var(--color-instamortgage-bg); // #002724
+  color: var(--color-instamortgage-bg);
 }
 
 .mobile__steps {
   margin: 0;
-  padding-inline-start: 21px;
+  padding-inline-start: 21px; // standard list indent to preserve native bullet spacing
 
   li {
     margin: 0;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.4;
-    color: var(--color-text-muted); // #666
+    color: var(--color-text-muted);
   }
 }
 
@@ -137,20 +125,17 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .mobile__resume-step {
   display: flex;
   align-items: flex-start;
-  gap: 4px;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.4;
-  color: var(--color-text-muted); // pending: #666
+  gap: var(--space-1);
+  color: var(--color-text-muted);
 
   &--done {
-    color: #a7a7a7; // completed: dimmed
+    color: #a7a7a7; // completed: dimmer than --color-text-muted (#666); no token for this shade
   }
 }
 
@@ -172,37 +157,12 @@
 
 .mobile__time-note {
   margin: 0;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.4;
   color: var(--color-text);
 }
 
-// CTA button
+// prypco-button host — only layout override needed, DS owns all other styles
 .mobile__cta {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 100%;
-  height: 48px;
-  padding-inline: 16px;
-  background: var(--color-bg-inverse); // #1d1d1d — near-black matching design
-  color: #fff;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 24px;
-  border: none;
-  border-radius: var(--radius-md); // 8px
-  cursor: pointer;
-
-  &:hover {
-    background: var(--color-bg-inverse-hover);
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--color-instamortgage-bg);
-    outline-offset: 2px;
-  }
 }
 
 // ── Footer ────────────────────────────────────────────────────────────────────
@@ -210,16 +170,13 @@
 .mobile__footer {
   display: flex;
   justify-content: center;
-  padding: 0 28px 14px;
+  padding: 0 28px 14px; // 28px = 2× 14px side gutter; 14px: no token (see above)
   background: var(--color-surface-secondary);
 }
 
 .mobile__powered-by {
   margin: 0;
-  font-size: 10px;
-  font-weight: 300; // Aeonik Light
-  line-height: 1.2;
-  color: var(--color-text-muted); // #666
+  color: var(--color-text-muted);
   text-align: center;
   white-space: nowrap;
 }
