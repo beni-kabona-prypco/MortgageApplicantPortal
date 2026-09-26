@@ -1,8 +1,64 @@
-<app-page-layout>
-  <app-top-nav-buyer
-    pageNav
-    brokerName="Broker Name"
-    brokerageName="Brokerage Name"
-    appId="72381902"
-  />
-</app-page-layout>
+<section class="home__section home__section--buyer">
+  <picture class="home__bg-wrap">
+    <source media="(min-width: 768px)" srcset="/assets/desktop-background.svg" />
+    <img src="/assets/mobile-background.svg" alt="" aria-hidden="true" class="home__bg" />
+  </picture>
+
+  <div class="home__content">
+    <img
+      src="/assets/instamortgage-logo.svg"
+      alt="InstaMortgage"
+      class="home__logo"
+      width="160"
+      height="22"
+    />
+
+    <div class="home__text-group">
+      <prypco-text variant="paragraph-bold-sm" color="var(--color-instamortgage-icon)">
+        For Buyers
+      </prypco-text>
+
+      <prypco-text
+        element="h1"
+        variant="heading-bold-md"
+        [fontSize]="28"
+        [lineHeight]="'1.2'"
+        color="white"
+      >
+        Looking for your application link?
+      </prypco-text>
+
+      <prypco-text variant="paragraph-regular-md" color="rgba(255, 255, 255, 0.75)">
+        Please reach out to your broker. They'll send you a personalised link to complete your
+        mortgage verification.
+      </prypco-text>
+    </div>
+  </div>
+</section>
+
+<section class="home__section home__section--broker">
+  <div class="home__content">
+    <div class="home__text-group">
+      <prypco-text variant="paragraph-bold-sm" color="var(--color-instamortgage-bg)">
+        For Brokers
+      </prypco-text>
+
+      <prypco-text
+        element="h2"
+        variant="heading-bold-md"
+        [fontSize]="28"
+        [lineHeight]="'1.2'"
+        color="var(--color-instamortgage-bg)"
+      >
+        Ready to manage your pipeline?
+      </prypco-text>
+
+      <prypco-text variant="paragraph-regular-md" color="var(--color-instamortgage-bg)">
+        Log in to the broker portal to send application links, track progress, and manage your
+        clients' mortgage journeys.
+      </prypco-text>
+    </div>
+
+    <prypco-button size="lg" (click)="goToBrokerPortal()">Go to Broker Portal</prypco-button>
+  </div>
+</section>

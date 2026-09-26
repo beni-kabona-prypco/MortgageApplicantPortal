@@ -2,43 +2,88 @@
   display: contents;
 }
 
-.not-found {
+// ── Card ──────────────────────────────────────────────────────────────────────
+
+.not-found__card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: min(670px, 82vh);
+
+  @media (width >= 768px) {
+    min-height: min(772px, 82vh);
+    width: 100%;
+  }
+}
+
+// ── Background ────────────────────────────────────────────────────────────────
+
+.not-found__bg-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+
+.not-found__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// ── Content ───────────────────────────────────────────────────────────────────
+
+.not-found__content {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: var(--space-5);
-  min-height: 100%;
-  padding: var(--space-6) var(--space-5);
+  gap: 0.875rem;
+  padding: 1.75rem 0.875rem;
   text-align: center;
 }
 
-// ── Icon: circle with "?" ─────────────────────────────────────────────────────
+// ── Icon: lime circle with "!" ────────────────────────────────────────────────
 
 .not-found__icon {
   flex-shrink: 0;
   width: 80px;
   height: 80px;
   border-radius: var(--radius-pill);
-  background: var(--color-instamortgage-bg);
+  background: var(--color-instamortgage-icon);
   display: flex;
   align-items: center;
   justify-content: center;
 
   &::after {
-    content: '?';
-    font-size: 36px;
-    font-weight: 700;
+    content: '!';
+    font-size: 2.5rem;
+    font-weight: var(--font-weight-bold);
     line-height: 1;
-    color: #fff;
+    color: var(--color-instamortgage-bg);
   }
 }
 
-// ── Text block ────────────────────────────────────────────────────────────────
+// ── Text ──────────────────────────────────────────────────────────────────────
+
+.not-found__heading {
+  max-width: 17.8125rem;
+
+  @media (width >= 768px) {
+    max-width: 22.625rem;
+  }
+}
 
 .not-found__body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  max-width: 320px;
+  max-width: 16rem;
+
+  @media (width >= 768px) {
+    max-width: 22.625rem;
+  }
 }
