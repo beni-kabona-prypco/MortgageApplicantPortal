@@ -14,6 +14,6 @@ export class HomePageComponent {
   protected readonly brokerHubUrl = BROKER_HUB_URL;
 
   protected goToBrokerPortal(): void {
-    window.location.href = this.brokerHubUrl;
+    window.open(this.brokerHubUrl, '_blank', 'noopener,noreferrer');
   }
 }
