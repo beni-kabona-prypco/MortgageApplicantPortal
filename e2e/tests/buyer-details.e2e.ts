@@ -94,4 +94,31 @@ test.describe('buyer-details page', () => {
       page.getByRole('button', { name: /back/i }).click(),
     ]);
   });
+
+  test('navigates to /not-found when the API returns an error on load', async ({ page, worker }) => {
+    await worker.use(
+      http.get('/Buyer/Application/:applicationId', () => new HttpResponse(null, { status: 500 }))
+    );
+
+    await page.goto(`/buyer/buyer-details/${APP_ID}`);
+
+    await expect(page).toHaveURL(/not-found/);
+  });
+
+  test('submit failure re-enables the submit button', async ({ page, worker }) => {
+    await worker.use(
+      http.get('/Buyer/Application/:applicationId', () =>
+        HttpResponse.json(mockFullApplicationResponse)
+      ),
+      http.put('/Buyer/Application/', () => new HttpResponse(null, { status: 500 }))
+    );
+
+    await page.goto(`/buyer/buyer-details/${APP_ID}`);
+    await expect(page.getByText('About you')).toBeVisible();
+
+    const submitBtn = page.getByRole('button', { name: /submit/i });
+    await expect(submitBtn).not.toBeDisabled();
+    await submitBtn.click();
+    await expect(submitBtn).not.toBeDisabled();
+  });
 });

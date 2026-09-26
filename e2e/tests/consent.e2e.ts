@@ -76,4 +76,32 @@ test.describe('consent page', () => {
       page.getByRole('button', { name: /accept and continue/i }).click(),
     ]);
   });
+
+  test('submit failure re-enables the accept button', async ({ page, worker }) => {
+    await worker.use(
+      http.put('/CustomerPortal/application/consents', () => new HttpResponse(null, { status: 500 }))
+    );
+
+    await page.locator('prypco-checkbox', { hasText: BUREAU_LABEL }).click();
+    await page.locator('prypco-checkbox', { hasText: TNC_LABEL }).click();
+    await page.locator('prypco-checkbox', { hasText: ACCURACY_LABEL }).click();
+
+    const acceptBtn = page.getByRole('button', { name: /accept and continue/i });
+    await acceptBtn.click();
+    await expect(acceptBtn).not.toBeDisabled();
+  });
+});
+
+test.describe('consent page — load error', () => {
+  test.use({ viewport: { width: 375, height: 812 } });
+
+  test('navigates to /not-found when the API returns an error on load', async ({ page, worker }) => {
+    await worker.use(
+      http.get('/Buyer/Application/:applicationId', () => new HttpResponse(null, { status: 500 }))
+    );
+
+    await page.goto(`/buyer/consent/${APP_ID}`);
+
+    await expect(page).toHaveURL(/not-found/);
+  });
 });

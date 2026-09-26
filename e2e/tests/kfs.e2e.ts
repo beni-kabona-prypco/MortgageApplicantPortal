@@ -146,6 +146,39 @@ test.describe('kfs page', () => {
     expect(download.suggestedFilename()).toMatch(/TestBank_KFS_\d{8}\.pdf/);
   });
 
+  test('navigates to /not-found when the API returns an error on load', async ({ page, worker }) => {
+    await worker.use(
+      http.get('/Buyer/Application/:applicationId', () => new HttpResponse(null, { status: 500 }))
+    );
+
+    await page.goto(`/buyer/kfs/${APP_ID}`);
+
+    await expect(page).toHaveURL(/not-found/);
+  });
+
+  test('closing the bottom sheet resets the accepted state', async ({ page, worker }) => {
+    await worker.use(
+      http.get('/Buyer/Application/:applicationId', () =>
+        HttpResponse.json(mockKfsReadyApplicationResponse)
+      )
+    );
+
+    await page.clock.install();
+    await page.goto(`/buyer/kfs/${APP_ID}`);
+    await page.clock.runFor(1_000);
+
+    await page.getByRole('button', { name: /read key facts statement/i }).click();
+    await page.locator('prypco-checkbox', { hasText: /key facts statement/i }).click();
+    await expect(page.getByRole('button', { name: /^confirm$/i })).not.toBeDisabled();
+
+    // Close the sheet — hasAccepted resets to false
+    await page.getByRole('button', { name: /close/i }).click();
+
+    // Reopen — confirm must be disabled again
+    await page.getByRole('button', { name: /read key facts statement/i }).click();
+    await expect(page.getByRole('button', { name: /^confirm$/i })).toBeDisabled();
+  });
+
   test('shows timeout error after all poll attempts are exhausted', async ({ page, worker }) => {
     // Response never has a kfs document — poll runs 12 × 5 s = 60 s before timing out.
     await worker.use(
