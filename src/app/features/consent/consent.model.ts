@@ -1,20 +1,10 @@
-interface BrokerNavInfo {
-  readonly id: string;
-  readonly name: string;
-  readonly logo: string;
-}
-
-interface BrokerageNavInfo {
-  readonly id: string;
-  readonly name: string;
-  readonly logo: string;
-}
+import type { BrokerInfo, BrokerageInfo } from '@core/application';
 
 export interface ConsentApplicationData {
   readonly id: string;
   readonly short_id: string;
-  readonly broker: BrokerNavInfo;
-  readonly brokerage: BrokerageNavInfo;
+  readonly broker: BrokerInfo;
+  readonly brokerage: BrokerageInfo;
   readonly links: {
     readonly eKyc: {
       readonly redirectUrl: string;

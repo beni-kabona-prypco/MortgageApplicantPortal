@@ -21,7 +21,7 @@ import { PageCardComponent } from '@shared/ui/page-card';
 import { PageLayoutComponent } from '@shared/ui/page-layout';
 import { TopNavBuyerComponent } from '@shared/ui/top-nav-buyer';
 
-import { APPRO_STATUS, TERMINAL_STATUSES } from '../appro-status.constants';
+import { APPRO_STATUS, TERMINAL_STATUSES } from '@core/application';
 import { GET_STARTED_EVENTS, POLL_INTERVAL_MS } from '../get-started.constants';
 import { GetStartedMobileComponent } from '../get-started-mobile/get-started-mobile.component';
 import { GetStartedService } from '../get-started.service';

@@ -1,14 +1,4 @@
-interface BrokerInfo {
-  readonly id: string;
-  readonly name: string;
-  readonly logo: string;
-}
-
-interface BrokerageInfo {
-  readonly id: string;
-  readonly name: string;
-  readonly logo: string;
-}
+import type { BrokerInfo, BrokerageInfo } from '@core/application';
 
 export interface VerificationCompletedApplicationData {
   readonly id: string;
