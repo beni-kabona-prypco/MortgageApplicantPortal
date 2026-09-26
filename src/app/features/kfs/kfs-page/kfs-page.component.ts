@@ -83,8 +83,7 @@ export class KfsPageComponent {
   protected readonly isSubmitting = signal(false);
 
   constructor() {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (window as any)['pdfWorkerSrc'] = '/assets/pdf.worker.min.mjs';
+    (window as Window & { pdfWorkerSrc?: string })['pdfWorkerSrc'] = '/assets/pdf.worker.min.mjs';
 
     const appId = this.applicationId();
 
