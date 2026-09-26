@@ -18,6 +18,7 @@ import { TopNavBuyerComponent } from '@shared/ui/top-nav-buyer';
 
 import {
   INELIGIBLE_STATUSES,
+  KFS_POST_STATUSES,
   VERIFICATION_COMPLETED_EVENTS,
 } from '../verification-completed.constants';
 import type { VerificationCompletedApplicationRecord } from '../verification-completed.model';
@@ -91,11 +92,21 @@ export class VerificationCompletedPageComponent {
             this.appData.set(res.data);
             this.isLoading.set(false);
 
-            const event = this.isEligible()
-              ? VERIFICATION_COMPLETED_EVENTS.VERIFICATION_COMPLETED
-              : VERIFICATION_COMPLETED_EVENTS.VERIFICATION_FAILED;
+            const status = res.data.applicationData.status;
 
-            this.amplitude.track(event, { applicationId: res.data.applicationData.id });
+            if (status === 'In progress') {
+              this.amplitude.track(VERIFICATION_COMPLETED_EVENTS.VERIFICATION_COMPLETED, {
+                applicationId: res.data.applicationData.id,
+              });
+            } else if (KFS_POST_STATUSES.has(status)) {
+              this.amplitude.track(VERIFICATION_COMPLETED_EVENTS.THANKYOU_PAGE, {
+                applicationId: res.data.applicationData.id,
+              });
+            } else if (INELIGIBLE_STATUSES.has(status)) {
+              this.amplitude.track(VERIFICATION_COMPLETED_EVENTS.VERIFICATION_FAILED, {
+                applicationId: res.data.applicationData.id,
+              });
+            }
           },
           error: () => {
             this.router.navigate(['/not-found'], { replaceUrl: true });

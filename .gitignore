@@ -40,7 +40,7 @@ values.dev.yaml
 .DS_Store
 Thumbs.db
 
-logs/
+/logs/
 *.log
 
 eslint-report.json

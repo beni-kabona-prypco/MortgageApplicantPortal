@@ -37,7 +37,7 @@ export const routes: Routes = [
       },
       {
         path: 'kfs/:applicationId',
-        canActivate: [desktopRedirectGuard],
+        canActivate: [desktopRedirectGuard, consentRequiredGuard],
         loadChildren: () => import('@features/kfs').then(m => m.KFS_ROUTES),
       },
     ],

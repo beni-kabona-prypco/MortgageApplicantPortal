@@ -59,6 +59,7 @@
     "@prypco/web-tokens": "1.0.1",
     "@prypco/web-ui": "^2.5.3",
     "angularx-qrcode": "^22.0.1",
+    "ng2-pdf-viewer": "^10.4.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
