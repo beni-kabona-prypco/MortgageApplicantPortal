@@ -1,6 +1,7 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import { provideDatadogErrorHandler, provideDatadogRouter } from '@datadog/browser-rum-angular';
 
 import { routes } from './app.routes';
 import { provideAmplitude } from '@core/amplitude';
@@ -16,6 +17,8 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes, withComponentInputBinding()),
+    provideDatadogRouter(),
+    provideDatadogErrorHandler(),
     provideHttpClient(withFetch(), withInterceptors([baseUrlInterceptor, errorInterceptor])),
     provideAppConfig(),
     provideTheme(),
