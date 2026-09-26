@@ -95,7 +95,10 @@ test.describe('buyer-details page', () => {
     ]);
   });
 
-  test('navigates to /not-found when the API returns an error on load', async ({ page, worker }) => {
+  test('navigates to /not-found when the API returns an error on load', async ({
+    page,
+    worker,
+  }) => {
     await worker.use(
       http.get('/Buyer/Application/:applicationId', () => new HttpResponse(null, { status: 500 }))
     );

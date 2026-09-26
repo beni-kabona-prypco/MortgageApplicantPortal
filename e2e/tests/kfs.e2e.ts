@@ -146,7 +146,10 @@ test.describe('kfs page', () => {
     expect(download.suggestedFilename()).toMatch(/TestBank_KFS_\d{8}\.pdf/);
   });
 
-  test('navigates to /not-found when the API returns an error on load', async ({ page, worker }) => {
+  test('navigates to /not-found when the API returns an error on load', async ({
+    page,
+    worker,
+  }) => {
     await worker.use(
       http.get('/Buyer/Application/:applicationId', () => new HttpResponse(null, { status: 500 }))
     );

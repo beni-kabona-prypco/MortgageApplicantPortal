@@ -79,7 +79,10 @@ test.describe('consent page', () => {
 
   test('submit failure re-enables the accept button', async ({ page, worker }) => {
     await worker.use(
-      http.put('/CustomerPortal/application/consents', () => new HttpResponse(null, { status: 500 }))
+      http.put(
+        '/CustomerPortal/application/consents',
+        () => new HttpResponse(null, { status: 500 })
+      )
     );
 
     await page.locator('prypco-checkbox', { hasText: BUREAU_LABEL }).click();
@@ -95,7 +98,10 @@ test.describe('consent page', () => {
 test.describe('consent page — load error', () => {
   test.use({ viewport: { width: 375, height: 812 } });
 
-  test('navigates to /not-found when the API returns an error on load', async ({ page, worker }) => {
+  test('navigates to /not-found when the API returns an error on load', async ({
+    page,
+    worker,
+  }) => {
     await worker.use(
       http.get('/Buyer/Application/:applicationId', () => new HttpResponse(null, { status: 500 }))
     );
