@@ -12,10 +12,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 670px;
+  min-height: min(670px, 82vh);
 
   @media (width >= 768px) {
-    min-height: 772px;
+    min-height: min(772px, 82vh);
     width: 100%;
   }
 }
