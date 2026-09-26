@@ -62,6 +62,26 @@ test.describe('get-started — mobile', () => {
     await expect(page.getByRole('button', { name: /get started/i })).toBeVisible();
   });
 
+  test('Get Started button navigates to consent when status is Pending', async ({ page }) => {
+    // Default handler returns status 'Pending' with consents: null — CTA goes to consent.
+    await page.goto(`/buyer/get-started/${APP_ID}`);
+
+    await Promise.all([
+      page.waitForURL(`/buyer/consent/${APP_ID}`),
+      page.getByRole('button', { name: /get started/i }).click(),
+    ]);
+  });
+
+  test('navigates to /not-found when the API returns an error', async ({ page, worker }) => {
+    await worker.use(
+      http.get('/Buyer/Application/:applicationId', () => new HttpResponse(null, { status: 500 }))
+    );
+
+    await page.goto(`/buyer/get-started/${APP_ID}`);
+
+    await expect(page).toHaveURL(/not-found/);
+  });
+
   test('auto-navigates to verification-completed when status is terminal', async ({
     page,
     worker,
