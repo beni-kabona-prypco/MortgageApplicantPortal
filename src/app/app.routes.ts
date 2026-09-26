@@ -7,6 +7,11 @@ export const routes: Routes = [
     path: '',
     loadChildren: () => import('@features/home').then(m => m.HOME_ROUTES),
   },
+  { path: 'login', redirectTo: '/' },
+  {
+    path: 'broker',
+    children: [{ path: '**', redirectTo: '/' }],
+  },
   {
     path: 'buyer',
     children: [
