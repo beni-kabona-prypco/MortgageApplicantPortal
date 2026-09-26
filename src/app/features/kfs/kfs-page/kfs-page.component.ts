@@ -188,6 +188,10 @@ export class KfsPageComponent {
     }
 
     const bankKey = doc.bankKey || 'KFS';
+    const today = new Date();
+    const day = today.getDate().toString().padStart(2, '0');
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const year = today.getFullYear();
 
     fetch(doc.document)
       .then(response => response.blob())
@@ -195,7 +199,7 @@ export class KfsPageComponent {
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = `${bankKey}_KFS.pdf`;
+        link.download = `${bankKey}_KFS_${day}${month}${year}.pdf`;
         document.body.appendChild(link);
         link.click();
         link.remove();
