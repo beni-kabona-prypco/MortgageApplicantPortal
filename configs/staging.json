@@ -8,9 +8,9 @@
     "enabled": true
   },
   "datadog": {
-    "applicationId": "016ac22a-ecc8-469a-9f6c-8df26b4daa26",
-    "clientToken": "pub790c3456f757b09c0c08c80a0d47ba50",
-    "service": "instamortgage-buyer-staging",
+    "applicationId": "93394856-91a0-47b3-84db-aa2380c584ee",
+    "clientToken": "pubd05a57e0eee5eb65e52723ce67aa7c29",
+    "service": "instamortgage-buyer",
     "env": "staging",
     "enabled": true,
     "sessionReplaySampleRate": 0
