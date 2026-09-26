@@ -291,12 +291,12 @@ describe('BuyerDetailsPageComponent', () => {
   // ── Company autocomplete ───────────────────────────────────────────────────
 
   describe('company autocomplete', () => {
-    it('calls searchCompanies after 300ms debounce when query is ≥3 chars', fakeAsync(() => {
+    it('calls searchCompanies after 100ms debounce when query is ≥3 chars', fakeAsync(() => {
       serviceSpy.searchCompanies.calls.reset();
       const event = { target: { value: 'ACM' } } as unknown as Event;
 
       component['onCompanySearch'](event);
-      tick(300);
+      tick(100);
 
       expect(serviceSpy.searchCompanies).toHaveBeenCalledWith('ACM');
     }));
@@ -306,7 +306,7 @@ describe('BuyerDetailsPageComponent', () => {
       const event = { target: { value: 'ACM' } } as unknown as Event;
 
       component['onCompanySearch'](event);
-      tick(299);
+      tick(99);
 
       expect(serviceSpy.searchCompanies).not.toHaveBeenCalled();
       tick(1);
@@ -328,7 +328,7 @@ describe('BuyerDetailsPageComponent', () => {
       const event = { target: { value: 'ACME' } } as unknown as Event;
 
       component['onCompanySearch'](event);
-      tick(300);
+      tick(100);
 
       expect(component['companyOptions']()).toEqual([
         { value: 'ACME Corp', label: 'ACME Corp' },

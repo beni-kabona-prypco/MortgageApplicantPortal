@@ -126,7 +126,7 @@ export class BuyerDetailsPageComponent {
   constructor() {
     this.companyQuery$
       .pipe(
-        debounceTime(300),
+        debounceTime(100),
         switchMap(q => this.service.searchCompanies(q)),
         takeUntilDestroyed(this.destroyRef)
       )
