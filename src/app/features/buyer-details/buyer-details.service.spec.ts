@@ -19,6 +19,7 @@ const mockAppResponse: GetBuyerApplicationResponse = {
   success: true,
   data: {
     id: APP_ID,
+    version: 1,
     applicationData: {
       id: APP_ID,
       short_id: 'IM-0001',
@@ -193,7 +194,7 @@ describe('BuyerDetailsService', () => {
       const payload: UpdateBuyerDetailsRequest = {
         applicationId: APP_ID,
         applicationData: mockAppResponse.data.applicationData,
-        version: 'v1',
+        version: 1,
       };
 
       service.updateBuyerDetails(payload).subscribe();

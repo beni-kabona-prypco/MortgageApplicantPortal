@@ -19,7 +19,7 @@ export class BuyerDetailsService {
   private readonly cache = inject(ApplicationCacheService);
 
   getApplication(applicationId: string) {
-    return this.cache.get<GetBuyerApplicationResponse>(applicationId);
+    return this.cache.fetch<GetBuyerApplicationResponse>(applicationId);
   }
 
   getEmirates() {

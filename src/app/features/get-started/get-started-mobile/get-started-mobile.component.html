@@ -48,7 +48,7 @@
           @if (isResume()) {
             <!-- ── Resume mode: progress steps with completion indicators ──── -->
             <ol class="mobile__resume-steps">
-              <li class="mobile__resume-step" [class.mobile__resume-step--done]="true">
+              <li class="mobile__resume-step mobile__resume-step--done">
                 <span class="mobile__step-num">1.</span>
                 <img
                   class="mobile__check-icon"
@@ -56,12 +56,22 @@
                   aria-hidden="true"
                   alt=""
                 />
-                <span class="mobile__step-text">
-                  Agree to terms and conditions and provide additional information about you
-                </span>
+                <span class="mobile__step-text">Agree to terms and conditions</span>
+              </li>
+              <li class="mobile__resume-step" [class.mobile__resume-step--done]="isInfoProvided()">
+                <span class="mobile__step-num">2.</span>
+                @if (isInfoProvided()) {
+                  <img
+                    class="mobile__check-icon"
+                    src="/assets/icons/check-circle.svg"
+                    aria-hidden="true"
+                    alt=""
+                  />
+                }
+                <span class="mobile__step-text"> Provide additional information about you </span>
               </li>
               <li class="mobile__resume-step" [class.mobile__resume-step--done]="isEkycCompleted()">
-                <span class="mobile__step-num">2.</span>
+                <span class="mobile__step-num">3.</span>
                 @if (isEkycCompleted()) {
                   <img
                     class="mobile__check-icon"
@@ -71,11 +81,11 @@
                   />
                 }
                 <span class="mobile__step-text">
-                  Verify your identity through Emirates ID and face scan.
+                  Verify your identity through Emirates ID and face scan
                 </span>
               </li>
               <li class="mobile__resume-step">
-                <span class="mobile__step-num">3.</span>
+                <span class="mobile__step-num">4.</span>
                 <span class="mobile__step-text">
                   Once the offer is chosen, you will need to agree to &ldquo;Key Facts
                   Statement&rdquo;
