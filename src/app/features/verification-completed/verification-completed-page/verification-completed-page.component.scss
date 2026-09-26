@@ -12,10 +12,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 670px;
+  min-height: min(670px, 80vh);
 
   @media (width >= 768px) {
-    min-height: 772px;
+    min-height: min(772px, 76vh); // lower cap than not-found: nav consumes extra vertical space
     width: 100%;
   }
 }
