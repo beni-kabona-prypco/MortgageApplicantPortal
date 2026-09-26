@@ -59,7 +59,11 @@ export interface BuyerApplicationData {
 
 export interface GetBuyerApplicationResponse {
   readonly success: boolean;
-  readonly data: { readonly id: string; readonly applicationData: BuyerApplicationData };
+  readonly data: {
+    readonly id: string;
+    readonly applicationData: BuyerApplicationData;
+    readonly version: number;
+  };
   readonly statusCode: number;
   readonly errorDetails: unknown;
 }
@@ -82,7 +86,7 @@ export interface GetCompaniesResponse {
 export interface UpdateBuyerDetailsRequest {
   readonly applicationId: string;
   readonly applicationData: BuyerApplicationData;
-  readonly version?: string;
+  readonly version: number;
 }
 
 export interface UpdateBuyerDetailsResponse {

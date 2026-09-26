@@ -77,6 +77,7 @@ export class BuyerDetailsPageComponent {
   protected readonly isLoading = signal(true);
   protected readonly isSubmitting = signal(false);
   private readonly appData = signal<BuyerApplicationData | null>(null);
+  private readonly appVersion = signal<number | null>(null);
 
   protected readonly brokerName = computed(() => this.appData()?.broker?.name ?? '');
   protected readonly brokerageName = computed(() => this.appData()?.brokerage?.name.trim() ?? '');
@@ -233,6 +234,12 @@ export class BuyerDetailsPageComponent {
         }
       : data.additionalFinancialData;
 
+    const version = this.appVersion();
+
+    if (version === null) {
+      return;
+    }
+
     const payload = {
       applicationId: data.id,
       applicationData: {
@@ -240,7 +247,7 @@ export class BuyerDetailsPageComponent {
         applicants: [updatedApplicant],
         additionalFinancialData,
       },
-      version: data.version,
+      version,
     };
 
     this.service
@@ -284,6 +291,7 @@ export class BuyerDetailsPageComponent {
           }
 
           this.appData.set(app.data.applicationData);
+          this.appVersion.set(app.data.version);
           this.emirateOptions.set(emirates.data.emirates.map(e => ({ value: e, label: e })));
           this.industryOptions.set(
             industries.data.workingIndustries.map(i => ({ value: i.code, label: i.label }))

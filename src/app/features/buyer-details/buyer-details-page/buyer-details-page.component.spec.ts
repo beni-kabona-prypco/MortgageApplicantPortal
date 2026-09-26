@@ -45,7 +45,7 @@ const makeAppData = (): BuyerApplicationData => ({
 
 const makeAppResponse = (data = makeAppData()) => ({
   success: true,
-  data: { id: APP_ID, applicationData: data },
+  data: { id: APP_ID, version: 1, applicationData: data },
   statusCode: 200,
   errorDetails: null,
 });
