@@ -98,16 +98,16 @@ describe('KfsService', () => {
   describe('acceptKfs()', () => {
     const request: AcceptKfsRequest = { applicationID: APP_ID };
 
-    it('POSTs to /Customer/acceptKFS', () => {
+    it('POSTs to /Buyer/acceptKFS', () => {
       service.acceptKfs(request).subscribe();
-      const req = httpMock.expectOne('/Customer/acceptKFS');
+      const req = httpMock.expectOne('/Buyer/acceptKFS');
       expect(req.request.method).toBe('POST');
       req.flush({});
     });
 
     it('sends applicationID in the request body', () => {
       service.acceptKfs(request).subscribe();
-      const req = httpMock.expectOne('/Customer/acceptKFS');
+      const req = httpMock.expectOne('/Buyer/acceptKFS');
       expect(req.request.body).toEqual(request);
       req.flush({});
     });
@@ -122,7 +122,7 @@ describe('KfsService', () => {
       let result: AcceptKfsResponse | undefined;
 
       service.acceptKfs(request).subscribe(r => (result = r));
-      httpMock.expectOne('/Customer/acceptKFS').flush(mockResponse);
+      httpMock.expectOne('/Buyer/acceptKFS').flush(mockResponse);
 
       expect(result).toEqual(mockResponse);
     });

@@ -19,6 +19,6 @@ export class KfsService {
   }
 
   acceptKfs(request: AcceptKfsRequest) {
-    return this.http.post<AcceptKfsResponse>('/Customer/acceptKFS', request);
+    return this.http.post<AcceptKfsResponse>('/Buyer/acceptKFS', request);
   }
 }
