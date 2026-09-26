@@ -8,9 +8,9 @@
     "enabled": true
   },
   "datadog": {
-    "applicationId": "4f447ffd-fdac-46b3-88e6-4d4c9f262154",
-    "clientToken": "pub283e377b7a5252ce204c0bc105eba444",
-    "service": "instamortgage-buyer-prod",
+    "applicationId": "93394856-91a0-47b3-84db-aa2380c584ee",
+    "clientToken": "pubd05a57e0eee5eb65e52723ce67aa7c29",
+    "service": "instamortgage-buyer",
     "env": "production",
     "enabled": true,
     "sessionReplaySampleRate": 10

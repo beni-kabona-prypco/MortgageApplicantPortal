@@ -16,6 +16,7 @@ import { forkJoin, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, take } from 'rxjs/operators';
 
 import { AMPLITUDE_SDK } from '@core/amplitude';
+import { RumService } from '@core/rum';
 import { PageLayoutComponent } from '@shared/ui/page-layout';
 import { TopNavBuyerComponent } from '@shared/ui/top-nav-buyer';
 
@@ -64,6 +65,7 @@ export class BuyerDetailsPageComponent {
   private readonly router = inject(Router);
   private readonly service = inject(BuyerDetailsService);
   private readonly amplitude = inject(AMPLITUDE_SDK);
+  private readonly rum = inject(RumService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly injector = inject(Injector);
 
@@ -268,7 +270,11 @@ export class BuyerDetailsPageComponent {
             this.navigateExternal(eKycUrl);
           }
         },
-        error: () => {
+        error: err => {
+          this.rum.addError(err, {
+            applicationId: data.id,
+            context: 'buyer_details_submit_failed',
+          });
           this.isSubmitting.set(false);
         },
       });

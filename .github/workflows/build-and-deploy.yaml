@@ -1,0 +1,243 @@
+name: Deploy instamortgage-buyer
+
+on:
+  workflow_dispatch:
+  # push:
+  #   branches:
+  #     - dev
+  #     - staging
+  #     - production
+
+permissions:
+  id-token: write
+  contents: read
+  deployments: write
+
+jobs:
+  dev-build-code:
+    name: Build instamortgage-buyer (development)
+    if: ${{ github.ref_name == 'dev' || startsWith(github.ref_name, 'feature/') }}
+    runs-on: self-hosted-aks
+    env:
+      BUILD_NUMBER: ${{ github.run_number }}
+      DATADOG_API_KEY: ${{ secrets.DATADOG_API_KEY }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Add current version number
+        run: |
+          find . -type f -not -path './.git/*' -exec sed -i 's/#{currentVersion}#/${{ env.BUILD_NUMBER }}/g' {} +
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+          registry-url: https://npm.pkg.github.com
+          scope: '@prypco'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_PAT }}
+
+      - name: Apply development runtime config
+        run: pnpm run config:development
+
+      - name: Build instamortgage-buyer
+        run: pnpm exec ng build --configuration=development
+
+      - name: Upload source maps to Datadog
+        if: env.DATADOG_API_KEY != ''
+        env:
+          DATADOG_SITE: datadoghq.eu
+        run: |
+          pnpm exec datadog-ci sourcemaps upload dist/instamortgage-buyer/browser \
+            --service "instamortgage-buyer" \
+            --release-version "${{ env.BUILD_NUMBER }}" \
+            --minified-path-prefix "https://red.instamortgage-buyer.prypco.com/" # TODO: replace with actual dev URL
+
+      - name: Remove source maps from artifact
+        run: find dist/instamortgage-buyer/browser -name "*.map" -delete
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: instamortgage-buyer-artifact-${{ env.BUILD_NUMBER }}
+          path: ${{ github.workspace }}/dist/instamortgage-buyer/browser
+          retention-days: 2
+
+  dev-deploy-code:
+    needs: dev-build-code
+    uses: Prypco/GithubActionsTemplates/.github/workflows/deploy-static-website-and-cleanup.yaml@v0.3.6
+    with:
+      sourcePath: 'dist/instamortgage-buyer/browser'
+      app_name: 'instamortgage-buyer'
+      storageAccountName: 'devinstamortgagebuyer' # TODO: replace with actual storage account name
+    secrets: inherit
+
+  dev-cache-purge:
+    needs: dev-deploy-code
+    uses: Prypco/GithubActionsTemplates/.github/workflows/purge-frontdoor.yaml@v0.3.6
+    with:
+      frontdoorName: 'prypco-dev-cfdp' # TODO: confirm
+      frontdoorRG: 'prypco-frontdoor-dev' # TODO: confirm
+      endpointName: 'prypco-dev-instamortgage-buyer-prypco-cfde' # TODO: replace with actual endpoint name
+      domainName: 'red.instamortgage-buyer.prypco.com' # TODO: replace with actual dev URL
+    secrets: inherit
+
+  staging-build-code:
+    name: Build instamortgage-buyer (staging)
+    if: ${{ github.ref_name == 'staging' }}
+    runs-on: self-hosted-aks
+    env:
+      BUILD_NUMBER: ${{ github.run_number }}
+      DATADOG_API_KEY: ${{ secrets.DATADOG_API_KEY }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Add current version number
+        run: |
+          find . -type f -not -path './.git/*' -exec sed -i 's/#{currentVersion}#/${{ env.BUILD_NUMBER }}/g' {} +
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+          registry-url: https://npm.pkg.github.com
+          scope: '@prypco'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_PAT }}
+
+      - name: Apply staging runtime config
+        run: pnpm run config:staging
+
+      - name: Build instamortgage-buyer
+        run: pnpm exec ng build --configuration=staging
+
+      - name: Upload source maps to Datadog
+        if: env.DATADOG_API_KEY != ''
+        env:
+          DATADOG_SITE: datadoghq.eu
+        run: |
+          pnpm exec datadog-ci sourcemaps upload dist/instamortgage-buyer/browser \
+            --service "instamortgage-buyer" \
+            --release-version "${{ env.BUILD_NUMBER }}" \
+            --minified-path-prefix "https://green.instamortgage-buyer.prypco.com/" # TODO: replace with actual staging URL
+
+      - name: Remove source maps from artifact
+        run: find dist/instamortgage-buyer/browser -name "*.map" -delete
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: instamortgage-buyer-artifact-${{ env.BUILD_NUMBER }}
+          path: ${{ github.workspace }}/dist/instamortgage-buyer/browser
+          retention-days: 2
+
+  staging-deploy-code:
+    needs: staging-build-code
+    uses: Prypco/GithubActionsTemplates/.github/workflows/deploy-static-website-and-cleanup.yaml@v0.3.6
+    with:
+      sourcePath: 'dist/instamortgage-buyer/browser'
+      app_name: 'instamortgage-buyer'
+      storageAccountName: 'stginstamortgagebuyer' # TODO: replace with actual storage account name
+    secrets: inherit
+
+  staging-cache-purge:
+    needs: staging-deploy-code
+    uses: Prypco/GithubActionsTemplates/.github/workflows/purge-frontdoor.yaml@v0.3.6
+    with:
+      frontdoorName: 'prypco-stg-cfdp' # TODO: confirm
+      frontdoorRG: 'prypco-frontdoor-stg' # TODO: confirm
+      endpointName: 'prypco-stg-instamortgage-buyer-prypco-cfde' # TODO: replace with actual endpoint name
+      domainName: 'green.instamortgage-buyer.prypco.com' # TODO: replace with actual staging URL
+    secrets: inherit
+
+  production-build-code:
+    name: Build instamortgage-buyer (production)
+    if: ${{ github.ref_name == 'production' }}
+    runs-on: self-hosted-aks
+    env:
+      BUILD_NUMBER: ${{ github.run_number }}
+      DATADOG_API_KEY: ${{ secrets.DATADOG_API_KEY }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Add current version number
+        run: |
+          find . -type f -not -path './.git/*' -exec sed -i 's/#{currentVersion}#/${{ env.BUILD_NUMBER }}/g' {} +
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+          registry-url: https://npm.pkg.github.com
+          scope: '@prypco'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_PAT }}
+
+      - name: Apply production runtime config
+        run: pnpm run config:production
+
+      - name: Build instamortgage-buyer
+        run: pnpm exec ng build --configuration=production
+
+      - name: Upload source maps to Datadog
+        if: env.DATADOG_API_KEY != ''
+        env:
+          DATADOG_SITE: datadoghq.eu
+        run: |
+          pnpm exec datadog-ci sourcemaps upload dist/instamortgage-buyer/browser \
+            --service "instamortgage-buyer" \
+            --release-version "${{ env.BUILD_NUMBER }}" \
+            --minified-path-prefix "https://instamortgage-buyer.prypco.com/" # TODO: replace with actual prod URL
+
+      - name: Remove source maps from artifact
+        run: find dist/instamortgage-buyer/browser -name "*.map" -delete
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: instamortgage-buyer-artifact-${{ env.BUILD_NUMBER }}
+          path: ${{ github.workspace }}/dist/instamortgage-buyer/browser
+          retention-days: 2
+
+  production-deploy-code:
+    needs: production-build-code
+    uses: Prypco/GithubActionsTemplates/.github/workflows/deploy-static-website-and-cleanup.yaml@v0.3.6
+    with:
+      sourcePath: 'dist/instamortgage-buyer/browser'
+      app_name: 'instamortgage-buyer'
+      storageAccountName: 'prodinstamortgagebuyer' # TODO: replace with actual storage account name
+    secrets: inherit
+
+  production-cache-purge:
+    needs: production-deploy-code
+    uses: Prypco/GithubActionsTemplates/.github/workflows/purge-frontdoor.yaml@v0.3.6
+    with:
+      frontdoorName: 'prypco-prod-cfdp' # TODO: confirm
+      frontdoorRG: 'prypco-frontdoor-prod' # TODO: confirm
+      endpointName: 'prypco-prod-instamortgage-buyer-prypco-cfde' # TODO: replace with actual endpoint name
+      domainName: 'instamortgage-buyer.prypco.com' # TODO: replace with actual prod URL
+    secrets: inherit

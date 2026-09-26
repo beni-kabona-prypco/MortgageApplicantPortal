@@ -8,11 +8,11 @@
     "enabled": false
   },
   "datadog": {
-    "applicationId": "eabd93f1-21c8-44f4-8841-d7e60e277506",
-    "clientToken": "pubb4b52a7acb737954edf19ea1ae7c5d62",
-    "service": "instamortgage-buyer-dev",
-    "env": "dev",
-    "enabled": false,
+    "applicationId": "93394856-91a0-47b3-84db-aa2380c584ee",
+    "clientToken": "pubd05a57e0eee5eb65e52723ce67aa7c29",
+    "service": "instamortgage-buyer",
+    "env": "local",
+    "enabled": true,
     "sessionReplaySampleRate": 0
   },
   "hotjar": {

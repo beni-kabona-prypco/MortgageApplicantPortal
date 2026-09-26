@@ -14,6 +14,7 @@ import { map, switchMap, take } from 'rxjs/operators';
 
 import { AMPLITUDE_SDK } from '@core/amplitude';
 import { ConsentStateService } from '@core/consent';
+import { RumService } from '@core/rum';
 import { BottomSheetComponent } from '@shared/ui/bottom-sheet';
 import { PageLayoutComponent } from '@shared/ui/page-layout';
 import { TopNavBuyerComponent } from '@shared/ui/top-nav-buyer';
@@ -48,6 +49,7 @@ export class ConsentPageComponent {
   private readonly consentState = inject(ConsentStateService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly amplitude = inject(AMPLITUDE_SDK);
+  private readonly rum = inject(RumService);
 
   protected readonly applicationId = toSignal(
     this.route.paramMap.pipe(map(p => p.get('applicationId') ?? '')),
@@ -164,7 +166,8 @@ export class ConsentPageComponent {
             this.router.navigate(['/buyer/buyer-details', appId]);
           }
         },
-        error: () => {
+        error: err => {
+          this.rum.addError(err, { applicationId: appId, context: 'consent_submit_failed' });
           this.isSubmitting.set(false);
         },
       });

@@ -12,6 +12,7 @@ import { ButtonComponent, TextComponent } from '@prypco/web-ui';
 import { map, take } from 'rxjs/operators';
 
 import { AMPLITUDE_SDK } from '@core/amplitude';
+import { RumService } from '@core/rum';
 import { PageCardComponent } from '@shared/ui/page-card';
 import { PageLayoutComponent } from '@shared/ui/page-layout';
 import { TopNavBuyerComponent } from '@shared/ui/top-nav-buyer';
@@ -38,6 +39,7 @@ export class VerifyYourIdentityPageComponent {
   private readonly router = inject(Router);
   private readonly service = inject(VerifyYourIdentityService);
   private readonly amplitude = inject(AMPLITUDE_SDK);
+  private readonly rum = inject(RumService);
   private readonly destroyRef = inject(DestroyRef);
 
   protected readonly applicationId = toSignal(
@@ -88,6 +90,9 @@ export class VerifyYourIdentityPageComponent {
             const url = res.data.applicationData.links?.eKyc?.redirectUrl ?? '';
 
             if (!url) {
+              this.rum.addError('ekyc_url_missing', {
+                applicationId: res.data.applicationData.id,
+              });
               this.hasError.set(true);
 
               return;
