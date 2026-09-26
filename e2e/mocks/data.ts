@@ -26,7 +26,7 @@ const baseApplicationData = {
 
 export const mockApplicationResponse = {
   success: true,
-  data: { id: APP_ID, applicationData: baseApplicationData },
+  data: { id: APP_ID, version: 1, applicationData: baseApplicationData },
   statusCode: 200,
   timestamp: '2024-01-01T00:00:00.000Z',
   errorDetails: null,
@@ -37,6 +37,7 @@ export const mockFullApplicationResponse = {
   ...mockApplicationResponse,
   data: {
     id: APP_ID,
+    version: 1,
     applicationData: {
       ...baseApplicationData,
       applicants: [
@@ -68,6 +69,7 @@ export const mockTerminalApplicationResponse = {
   ...mockApplicationResponse,
   data: {
     id: APP_ID,
+    version: 1,
     applicationData: { ...baseApplicationData, status: 'In progress' },
   },
 };
@@ -77,6 +79,7 @@ export const mockIneligibleApplicationResponse = {
   ...mockApplicationResponse,
   data: {
     id: APP_ID,
+    version: 1,
     applicationData: { ...baseApplicationData, status: 'Client not eligible' },
   },
 };
@@ -87,6 +90,7 @@ export const mockFullApplicationNoEKycResponse = {
   ...mockFullApplicationResponse,
   data: {
     id: APP_ID,
+    version: 1,
     applicationData: {
       ...mockFullApplicationResponse.data.applicationData,
       links: { eKyc: { redirectUrl: '' } },
@@ -99,6 +103,7 @@ export const mockApplicationNoEKycResponse = {
   ...mockApplicationResponse,
   data: {
     id: APP_ID,
+    version: 1,
     applicationData: {
       ...baseApplicationData,
       links: { eKyc: { redirectUrl: '' } },
@@ -111,6 +116,7 @@ export const mockKfsApplicationResponse = {
   ...mockApplicationResponse,
   data: {
     id: APP_ID,
+    version: 1,
     applicationData: { ...baseApplicationData, status: 'KFS Pending' },
   },
 };
@@ -135,6 +141,7 @@ export const mockKfsReadyApplicationResponse = {
   ...mockKfsApplicationResponse,
   data: {
     id: APP_ID,
+    version: 1,
     applicationData: {
       ...mockKfsApplicationResponse.data.applicationData,
       kfs: MOCK_KFS_DOCUMENT,
