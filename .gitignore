@@ -46,3 +46,8 @@ Thumbs.db
 eslint-report.json
 
 .claude/settings.local.json
+
+# E2E test output
+e2e/playwright-report/
+e2e/test-results/
+.playwright-mcp/

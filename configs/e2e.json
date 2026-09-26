@@ -1,0 +1,22 @@
+{
+  "apiBaseUrl": "",
+  "ory": {
+    "baseUrl": ""
+  },
+  "amplitude": {
+    "apiKey": "",
+    "enabled": false
+  },
+  "datadog": {
+    "applicationId": "",
+    "clientToken": "",
+    "service": "instamortgage-buyer-e2e",
+    "env": "e2e",
+    "enabled": false,
+    "sessionReplaySampleRate": 0
+  },
+  "hotjar": {
+    "siteId": "",
+    "enabled": false
+  }
+}
