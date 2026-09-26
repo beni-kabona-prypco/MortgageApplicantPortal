@@ -1,12 +1,19 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { PageLayoutComponent } from '@shared/ui/page-layout';
-import { TopNavBuyerComponent } from '@shared/ui/top-nav-buyer';
+import { ButtonComponent, TextComponent } from '@prypco/web-ui';
+
+import { BROKER_HUB_URL } from '../home.constants';
 
 @Component({
   selector: 'app-home-page',
-  imports: [PageLayoutComponent, TopNavBuyerComponent],
+  imports: [TextComponent, ButtonComponent],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomePageComponent {}
+export class HomePageComponent {
+  protected readonly brokerHubUrl = BROKER_HUB_URL;
+
+  protected goToBrokerPortal(): void {
+    window.location.href = this.brokerHubUrl;
+  }
+}
