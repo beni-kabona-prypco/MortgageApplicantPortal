@@ -13,6 +13,7 @@ import { catchError, first, map, of, switchMap, take, timer } from 'rxjs';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 import { AMPLITUDE_SDK } from '@core/amplitude';
+import { RumService } from '@core/rum';
 import { BottomSheetComponent } from '@shared/ui/bottom-sheet';
 import { PageLayoutComponent } from '@shared/ui/page-layout';
 import { TopNavBuyerComponent } from '@shared/ui/top-nav-buyer';
@@ -41,6 +42,7 @@ export class KfsPageComponent {
   private readonly router = inject(Router);
   private readonly service = inject(KfsService);
   private readonly amplitude = inject(AMPLITUDE_SDK);
+  private readonly rum = inject(RumService);
   private readonly destroyRef = inject(DestroyRef);
 
   protected readonly applicationId = toSignal(
@@ -125,6 +127,7 @@ export class KfsPageComponent {
         if (kfs?.document) {
           this.kfsDocument.set(kfs);
         } else {
+          this.rum.addError('kfs_poll_timeout', { applicationId: appId });
           this.pollTimedOut.set(true);
         }
 
@@ -150,6 +153,7 @@ export class KfsPageComponent {
   }
 
   protected onPdfError(): void {
+    this.rum.addError('kfs_pdf_load_failed', { applicationId: this.applicationId() });
     this.isPdfLoading.set(false);
   }
 
@@ -166,7 +170,10 @@ export class KfsPageComponent {
     this.service
       .acceptKfs({ applicationID: appId })
       .pipe(
-        catchError(() => of(null)),
+        catchError(err => {
+          this.rum.addError(err, { applicationId: appId, context: 'kfs_accept_failed' });
+          return of(null);
+        }),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe(() => this.proceed());
