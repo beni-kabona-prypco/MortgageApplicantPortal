@@ -13,7 +13,7 @@
     "sessionReplaySampleRate": 10
   },
   "hotjar": {
-    "siteId": "",
-    "enabled": false
+    "siteId": "6785179",
+    "enabled": true
   }
 }
