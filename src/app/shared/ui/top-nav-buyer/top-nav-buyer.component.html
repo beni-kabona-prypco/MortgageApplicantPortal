@@ -29,13 +29,13 @@
         }
       </div>
 
-      <!-- Mobile: brokerage name only -->
+      <!-- Mobile: brokerage name only — capped at 20 chars -->
       <prypco-text
         class="top-nav__brokerage-mobile"
         variant="mobile-paragraph-bold-md"
         color="var(--color-text)"
         [noWrap]="true"
-        >{{ brokerageName() }}</prypco-text
+        >{{ brokerageNameMobile() }}</prypco-text
       >
 
       <!-- Desktop: Broker_Name | Brokerage_Name -->
