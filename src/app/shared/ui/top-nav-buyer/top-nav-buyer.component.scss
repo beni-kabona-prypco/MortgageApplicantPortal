@@ -8,7 +8,7 @@
   justify-content: space-between;
   gap: var(--space-3);
   min-height: 64px;
-  padding: var(--space-3) var(--space-5);
+  padding: var(--space-3);
   background: var(--color-bg);
   backdrop-filter: blur(25px);
   border-radius: var(--radius-lg);
@@ -113,7 +113,7 @@
 
 @media (width >= 768px) {
   .top-nav {
-    padding-inline: var(--space-7);
+    padding-inline: var(--space-5);
   }
 
   .top-nav__brokerage-mobile {

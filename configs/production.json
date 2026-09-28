@@ -1,8 +1,5 @@
 {
   "apiBaseUrl": "https://api.prypco.com/instamortgage/api",
-  "ory": {
-    "baseUrl": "https://api.prypco.com/user/ory"
-  },
   "amplitude": {
     "apiKey": "b7eb85790636b15a5bfa1ebf201dfdf6",
     "enabled": true
