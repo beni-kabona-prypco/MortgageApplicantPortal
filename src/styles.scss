@@ -15,6 +15,11 @@
   --prypco-color-bdr-brand-light: #444444;
   --prypco-color-bg-brand-lightest: #f2f2f2;
   --prypco-color-bg-brand-lighter: #cccccc;
+
+  // Primary button surface — one-light defaults to #333333 rest / #1d1d1d hover;
+  // instamortgage-buyer pins these to pure black.
+  --prypco-color-btn-pri-surface: #000000;
+  --prypco-color-btn-pri-surf-hover: #222222;
 }
 
 app-root {

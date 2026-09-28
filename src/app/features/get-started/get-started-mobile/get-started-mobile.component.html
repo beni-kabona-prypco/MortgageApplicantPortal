@@ -150,7 +150,13 @@
             This will take less than 2 minutes!
           </prypco-text>
 
-          <prypco-button class="mobile__cta" (click)="ctaClick.emit()">
+          <prypco-button
+            variant="primary"
+            shape="rounded"
+            size="lg"
+            [fullWidth]="true"
+            (click)="ctaClick.emit()"
+          >
             {{ isResume() ? 'Resume' : 'Get started' }}
           </prypco-button>
         </div>
