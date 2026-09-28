@@ -1,8 +1,5 @@
 {
   "apiBaseUrl": "",
-  "ory": {
-    "baseUrl": ""
-  },
   "amplitude": {
     "apiKey": "",
     "enabled": false

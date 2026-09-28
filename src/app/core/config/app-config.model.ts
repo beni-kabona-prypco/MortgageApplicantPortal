@@ -3,7 +3,6 @@ import { ConfigService } from './config.service';
 
 export interface AppConfig {
   readonly apiBaseUrl: string;
-  readonly ory: OryConfig;
   /** Amplitude product-analytics SDK settings. */
   readonly amplitude: AmplitudeConfig;
   /** Datadog RUM + Logs SDK settings. */
@@ -14,10 +13,6 @@ export interface AppConfig {
    * treats absence the same as `enabled: false`.
    */
   readonly hotjar?: HotjarConfig;
-}
-
-export interface OryConfig {
-  readonly baseUrl: string;
 }
 
 /**
